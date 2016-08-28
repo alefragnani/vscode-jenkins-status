@@ -1,0 +1,60 @@
+{
+    "name": "jenkins-status",
+    "displayName": "Jenkins Status",
+    "description": "View your project's Jenkins status inside Visual Studio Code",
+    "version": "0.1.0",
+    "publisher": "alefragnani",
+	"galleryBanner": {
+		"color": "#168bb9",
+		"theme": "dark"
+	},
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "jenkins",
+        "status"
+    ],
+    "activationEvents": [
+        "workspaceContains:.jenkins"
+    ],
+    "main": "./out/src/extension",
+    "icon": "images/icon.png",
+    "license": "SEE LICENSE IN LICENSE.md",
+	"homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alefragnani/vscode-jenkins-status.git"
+	},
+	"bugs": {
+		"url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
+	},
+    "contributes": {
+        "commands": [
+            {
+                "command": "jenkins.updateStatus",
+                "title": "Jenkins: Update Status"
+            },
+            {
+                "command": "jenkins.openInJenkins",
+                "title": "Jenkins: Open in Jenkins"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "dependencies": {
+        "request": "^2.72.0",
+        "open": "^0.0.5"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    }
+}

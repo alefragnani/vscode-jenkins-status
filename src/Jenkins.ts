@@ -1,0 +1,137 @@
+'use strict'
+
+var request = require('request');
+
+export enum BuildStatus {
+  Sucess, Failed, Disabled
+}
+
+export enum ConnectionStatus {
+  Connected, InvalidAddress, AuthenticationRequired
+}
+
+export interface JenkinsStatus {
+  jobName: string;
+  url: string;
+  buildNr: number;
+  status: BuildStatus;
+  statusName: string;
+  connectionStatus: ConnectionStatus;
+  connectionStatusName: string;
+}
+
+  /**s
+   * colorToBuildStatus
+   */
+export function colorToBuildStatus(color: string): BuildStatus {
+    
+    switch (color) {
+      case "blue" :
+        return BuildStatus.Sucess;
+      case "blue_anime":
+        return BuildStatus.Sucess;
+      
+      case "red" :
+        return BuildStatus.Failed;
+      case "red_anime":
+        return BuildStatus.Failed;
+      
+      default:
+        return BuildStatus.Disabled;
+    }
+  }
+
+export function colorToBuildStatusName(color: string): string {
+    
+    switch (color) {
+      case "blue" :
+        return 'Sucess';
+      case "blue_anime":
+        return 'Sucess';
+      
+      case "red" :
+        return 'Failed';
+      case "red_anime":
+        return 'Failed';
+      
+      default:
+        return 'Disabled';
+    }
+  }
+  
+export function getConnectionStatusName(status: ConnectionStatus): string {
+  
+    switch (status) {
+      case ConnectionStatus.Connected:
+        return 'Connected';
+        
+      case ConnectionStatus.InvalidAddress:
+        return 'Invalid Address';
+    
+      default:
+        return 'Authentication Required'
+    }
+}
+
+export class Jenkins { 
+
+
+  public getStatus(url: string) {
+
+    return new Promise<JenkinsStatus>((resolve, reject) => {
+
+      let statusCode: number;
+      let result: JenkinsStatus;
+      
+      request
+        .get(url + '/api/json')
+        .on('response', function(response) {
+          statusCode = response.statusCode;
+        })
+        .on('data', function(data) {
+          switch (statusCode) {
+            case 200:
+                let myArr = JSON.parse(data);
+                result = {
+                  jobName: myArr.displayName,
+                  url: myArr.url,
+                  status: colorToBuildStatus(myArr.color),
+                  statusName: colorToBuildStatusName(myArr.color),
+                  buildNr: myArr.lastBuild.number,
+                  connectionStatus: ConnectionStatus.Connected,
+                  connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected)
+                }
+                resolve(result);
+              break;
+              
+            case 403:
+              result = {
+                jobName: 'AUTENTICATION NEEDED',
+                url: url,
+                status: BuildStatus.Disabled,
+                statusName: 'Disabled',
+                buildNr: statusCode,
+                connectionStatus: ConnectionStatus.AuthenticationRequired,
+                connectionStatusName: getConnectionStatusName(ConnectionStatus.AuthenticationRequired)
+              }
+              resolve(result);
+              break;
+          
+            default:
+              result = {
+                jobName: 'Invalid URL',
+                url: url,
+                status: BuildStatus.Disabled,
+                statusName: 'Disabled',
+                buildNr: statusCode,
+                connectionStatus: ConnectionStatus.InvalidAddress,
+                connectionStatusName: getConnectionStatusName(ConnectionStatus.InvalidAddress)
+              }
+              resolve(result);
+              break;
+          }
+        })
+    });
+  }
+
+}
