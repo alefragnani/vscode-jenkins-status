@@ -7,7 +7,7 @@ export enum BuildStatus {
 }
 
 export enum ConnectionStatus {
-  Connected, InvalidAddress, AuthenticationRequired
+  Connected, InvalidAddress, AuthenticationRequired, Error
 }
 
 export interface JenkinsStatus {
@@ -67,6 +67,9 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
         
       case ConnectionStatus.InvalidAddress:
         return 'Invalid Address';
+    
+      case ConnectionStatus.Error:
+        return 'Error';
     
       default:
         return 'Authentication Required'
@@ -130,6 +133,18 @@ export class Jenkins {
               resolve(result);
               break;
           }
+        })
+        .on('error', function(err) {
+          result = {
+            jobName: err.toString(),
+            url: url,
+            status: BuildStatus.Disabled,
+            statusName: 'Disabled',
+            buildNr: err.code,
+            connectionStatus: ConnectionStatus.Error,
+            connectionStatusName: getConnectionStatusName(ConnectionStatus.Error)
+          }
+          resolve(result);
         })
     });
   }

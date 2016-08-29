@@ -27,6 +27,10 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 
 # Changelog
 
+## Version 0.1.1
+
+* **Fix:** No StatusBar added when some connection error occurs (issue [#5](https://github.com/alefragnani/vscode-jenkins-status/issues/5))
+
 ## Version 0.1.0
 
 * Initial release
