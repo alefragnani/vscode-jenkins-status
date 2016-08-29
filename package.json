@@ -19,6 +19,8 @@
         "status"
     ],
     "activationEvents": [
+        "onCommand:jenkins.updateStatus",
+        "onCommand:jenkins.openInJenkins",
         "workspaceContains:.jenkins"
     ],
     "main": "./out/src/extension",

@@ -10,19 +10,33 @@ var open = require('open');
 
 export function activate(context: vscode.ExtensionContext) {
 
-    let jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
-    let jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
-    context.subscriptions.push(jenkinsController);
-    context.subscriptions.push(jenkinsIndicator);
-
+    let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator; 
+    
+    let hasJenkinsInRoot: boolean;
+    hasJenkinsInRoot = vscode.workspace.rootPath && fs.existsSync(path.join(vscode.workspace.rootPath, '.jenkins'));
+    if (hasJenkinsInRoot) {
+        jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
+        let jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
+        context.subscriptions.push(jenkinsController);
+        context.subscriptions.push(jenkinsIndicator);
+    }
+    
     let dispUpdateStatus = vscode.commands.registerCommand('jenkins.updateStatus', () => {
-        jenkinsIndicator.updateJenkinsStatus();
+        if (!hasJenkinsInRoot) {
+            vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
+        } else {
+            jenkinsIndicator.updateJenkinsStatus();
+        }
     });
     context.subscriptions.push(dispUpdateStatus);
 
     let dispOpenInJenkins = vscode.commands.registerCommand('jenkins.openInJenkins', () => {
-        let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
-        open(settings.url);
+        if (!hasJenkinsInRoot) {
+            vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
+        } else {
+            let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
+            open(settings.url);
+        }
     });
     context.subscriptions.push(dispOpenInJenkins);
 }
