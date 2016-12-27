@@ -83,6 +83,7 @@ export class Jenkins {
 
     return new Promise<JenkinsStatus>((resolve, reject) => {
 
+      let data = '';
       let statusCode: number;
       let result: JenkinsStatus;
       
@@ -91,7 +92,10 @@ export class Jenkins {
         .on('response', function(response) {
           statusCode = response.statusCode;
         })
-        .on('data', function(data) {
+        .on('data', function(chunk) {
+          data += chunk;
+        })
+        .on('end', function() {
           switch (statusCode) {
             case 200:
                 let myArr = JSON.parse(data);

@@ -2,7 +2,7 @@
 
 import * as vscode from 'vscode';
 import fs = require('fs');
-import * as jenkins from './jenkins';
+import * as Jenkins from './Jenkins';
 import path = require('path');
 
 export class JenkinsIndicator {
@@ -21,8 +21,8 @@ export class JenkinsIndicator {
                 this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
             }
 
-            let jjj: jenkins.Jenkins;
-            jjj = new jenkins.Jenkins;
+            let jjj: Jenkins.Jenkins;
+            jjj = new Jenkins.Jenkins;
 
 
             let url: string;
@@ -44,7 +44,7 @@ export class JenkinsIndicator {
                     let icon: string;
 
                     switch (status.status) {
-                        case jenkins.BuildStatus.Sucess:
+                        case Jenkins.BuildStatus.Sucess:
                             icon = ' $(check)';
                             this.statusBarItem.tooltip = 
                                 'Job Name: ' + status.jobName + '\n' +
@@ -52,9 +52,9 @@ export class JenkinsIndicator {
                                 'Build #.: ' + status.buildNr; 
                             break;
 
-                        case jenkins.BuildStatus.Failed:
+                        case Jenkins.BuildStatus.Failed:
                             icon = ' $(x)';
-                            if (status.connectionStatus == jenkins.ConnectionStatus.AuthenticationRequired) {
+                            if (status.connectionStatus == Jenkins.ConnectionStatus.AuthenticationRequired) {
                                 this.statusBarItem.tooltip = 
                                     'Job Name: ' + status.jobName + '\n' +
                                     '<<Authenthication Required>>'; 
