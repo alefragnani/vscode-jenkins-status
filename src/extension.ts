@@ -21,13 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions.push(jenkinsIndicator);
     }
     
-    let dispUpdateStatus = vscode.commands.registerCommand('jenkins.updateStatus', () => {
-        if (!hasJenkinsInRoot) {
-            vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
-        } else {
-            jenkinsIndicator.updateJenkinsStatus();
-        }
-    });
+    let dispUpdateStatus = vscode.commands.registerCommand('jenkins.updateStatus', () => updateStatus());
     context.subscriptions.push(dispUpdateStatus);
 
     let dispOpenInJenkins = vscode.commands.registerCommand('jenkins.openInJenkins', () => {
@@ -39,4 +33,18 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
     context.subscriptions.push(dispOpenInJenkins);
+    
+    function updateStatus() {
+        if (!hasJenkinsInRoot) {
+            vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
+        } else {
+            jenkinsIndicator.updateJenkinsStatus();
+        }
+    };
+    
+    let interval;
+    let polling: number = vscode.workspace.getConfiguration('jenkins').get('polling', 0);
+    if (polling > 0) {
+        setInterval(updateStatus, polling * 60000);
+    }
 }

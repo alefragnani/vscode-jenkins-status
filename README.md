@@ -25,7 +25,19 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 
 ![Commands](images/jenkins-commands.png)
 
+## Available settings
+
+* Interval (in minutes) to automatically update the status
+```json
+    "jenkins.polling": 2
+```
+> Note: 0 (zero) means _no update_
+
 # Changelog
+
+## Version 0.2.0
+
+* **New:** Polling for automatic status update (issue [#1](https://github.com/alefragnani/vscode-jenkins-status/issues/1))
 
 ## Version 0.1.2
 
@@ -39,11 +51,6 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 ## Version 0.1.0
 
 * Initial release
-
-## TODO List
-
-* Support _polling_ for automatic update
-* Support authentication
 
 # Participate
 

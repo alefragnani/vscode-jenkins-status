@@ -2,7 +2,7 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "publisher": "alefragnani",
 	"galleryBanner": {
 		"color": "#168bb9",
@@ -44,7 +44,18 @@
                 "command": "jenkins.openInJenkins",
                 "title": "Jenkins: Open in Jenkins"
             }
-        ]
+        ],
+        "configuration": {			
+			"type": "object",
+			"title": "Jenkins Status Configuration",
+			"properties": {
+				"jenkins.polling": {
+					"type": "integer",
+					"default": 0,
+					"description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
+				}
+			}
+		}
     },
     "scripts": {
         "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
