@@ -20,8 +20,9 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 
 ## Available commands
 
-* **Jenkins: Update Status** Manually update the status of our Jenkins project
-* **Jenkins: Open in Jenkins** Open the Jenkins project in you browser 
+* **Jenkins: Open in Jenkins:** Open the Jenkins project in you browser 
+* **Jenkins: Open in Jenkins (Console Output):** Open the Console Output of the Jenkins project in you browser 
+* **Jenkins: Update Status:** Manually update the status of our Jenkins project
 
 ![Commands](images/jenkins-commands.png)
 
@@ -34,6 +35,10 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 > Note: 0 (zero) means _no update_
 
 # Changelog
+
+## Version 0.3.0
+
+* **New Command:** Open in Jenkins (Console Output)
 
 ## Version 0.2.0
 

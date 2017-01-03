@@ -2,7 +2,7 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "publisher": "alefragnani",
 	"galleryBanner": {
 		"color": "#168bb9",
@@ -21,6 +21,7 @@
     "activationEvents": [
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
+        "onCommand:jenkins.openInJenkinsConsoleOutput",
         "workspaceContains:.jenkins"
     ],
     "main": "./out/src/extension",
@@ -43,6 +44,10 @@
             {
                 "command": "jenkins.openInJenkins",
                 "title": "Jenkins: Open in Jenkins"
+            },
+            {
+                "command": "jenkins.openInJenkinsConsoleOutput",
+                "title": "Jenkins: Open in Jenkins (Console Output)"
             }
         ],
         "configuration": {			

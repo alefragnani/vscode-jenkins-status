@@ -6,6 +6,7 @@ import path = require('path');
 import fs = require('fs');
 import {exec} from 'child_process';
 import * as JenkinsIndicator from './JenkinsIndicator';
+import { BuildStatus, JenkinsStatus } from './Jenkins';
 var open = require('open');
 
 export function activate(context: vscode.ExtensionContext) {
@@ -33,6 +34,27 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
     context.subscriptions.push(dispOpenInJenkins);
+
+
+    let dispOpenInJenkinsConsoleOutput = vscode.commands.registerCommand('jenkins.openInJenkinsConsoleOutput', () => {
+        if (!hasJenkinsInRoot) {
+            vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
+        } else {
+            let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
+            
+            let status: JenkinsStatus;
+            status = jenkinsIndicator.getCurrentStatus();   
+            if (status.status != BuildStatus.Disabled) {
+                open(settings.url + status.buildNr.toString() + '/console');
+            } else {
+                vscode.window.showWarningMessage('The Jenkins job has some connnection issues. Please check the status bar for more information.');
+            }         
+        }
+    });
+    context.subscriptions.push(dispOpenInJenkinsConsoleOutput);
+    
+    
+    
     
     function updateStatus() {
         if (!hasJenkinsInRoot) {

@@ -8,6 +8,7 @@ import path = require('path');
 export class JenkinsIndicator {
 
     private statusBarItem: vscode.StatusBarItem;
+    private currentStatus: Jenkins.JenkinsStatus = <Jenkins.JenkinsStatus>{};
 
     dispose() {
         this.hideReadOnly();
@@ -34,6 +35,7 @@ export class JenkinsIndicator {
                 this.statusBarItem.tooltip = 'No URL Defined';
                 this.statusBarItem.text = 'Jenkins $(x)';
                 this.statusBarItem.show();
+                this.currentStatus = <Jenkins.JenkinsStatus>{};
                 resolve(true);
                 return;
             }            
@@ -42,6 +44,7 @@ export class JenkinsIndicator {
                 .then((status) => {
 
                     let icon: string;
+                    this.currentStatus = status;
 
                     switch (status.status) {
                         case Jenkins.BuildStatus.Sucess:
@@ -84,6 +87,10 @@ export class JenkinsIndicator {
         if (this.statusBarItem) {
             this.statusBarItem.dispose();
         }
+    }
+    
+    public getCurrentStatus(): Jenkins.JenkinsStatus {
+        return this.currentStatus;
     }
 }
 
