@@ -14,7 +14,9 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
 
 ```json
 {
-    "url": "http://127.0.0.1:8080/job/myproject"
+    "url": "http://127.0.0.1:8080/job/myproject",
+    "username": "jenkinsuser",
+    "password": "jenkinspassword"
 }
 ``` 
 

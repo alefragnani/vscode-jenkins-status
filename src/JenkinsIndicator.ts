@@ -27,9 +27,13 @@ export class JenkinsIndicator {
 
 
             let url: string;
+            let user: string;
+            let pw: string;
             let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
             url = settings.url;
-            
+            user = settings.username;
+            pw = settings.password;
+
             // invalid URL
             if (!url) {
                 this.statusBarItem.tooltip = 'No URL Defined';
@@ -40,7 +44,7 @@ export class JenkinsIndicator {
                 return;
             }            
         
-            jjj.getStatus(url)
+            jjj.getStatus(url, user, pw)
                 .then((status) => {
 
                     let icon: string;
