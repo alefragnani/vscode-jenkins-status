@@ -116,9 +116,10 @@ export class Jenkins {
                 resolve(result);
               break;
               
+            case 401:
             case 403:
               result = {
-                jobName: 'AUTENTICATION NEEDED',
+                jobName: 'AUTHENTICATION NEEDED',
                 url: url,
                 status: BuildStatus.Disabled,
                 statusName: 'Disabled',
