@@ -31,8 +31,8 @@ export class JenkinsIndicator {
             let pw: string;
             let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
             url = settings.url;
-            user = settings.username;
-            pw = settings.password;
+            user = settings.username ? settings.username : "";
+            pw = settings.password ? settings.password : "";
 
             // invalid URL
             if (!url) {
