@@ -79,7 +79,7 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
 export class Jenkins { 
 
 
-  public getStatus(url: string) {
+  public getStatus(url: string, username: string, password: string) {
 
     return new Promise<JenkinsStatus>((resolve, reject) => {
 
@@ -88,7 +88,12 @@ export class Jenkins {
       let result: JenkinsStatus;
       
       request
-        .get(url + '/api/json')
+        .get(url + '/api/json', {
+          'auth': {
+            'user': username,
+            'pass': password
+          }
+        })
         .on('response', function(response) {
           statusCode = response.statusCode;
         })
@@ -111,9 +116,10 @@ export class Jenkins {
                 resolve(result);
               break;
               
+            case 401:
             case 403:
               result = {
-                jobName: 'AUTENTICATION NEEDED',
+                jobName: 'AUTHENTICATION NEEDED',
                 url: url,
                 status: BuildStatus.Disabled,
                 statusName: 'Disabled',
