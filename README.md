@@ -10,13 +10,18 @@ Press `F1` in VSCode, type `ext install` and then look for `jenkins`.
 
 # Usage
 
-It is automatically enabled if you have a `.jenkins` file in the root folder of your project.
+It is automatically enabled if you have a `.jenkins` file in the root folder of your project. The only required information is the `url` pointing to your Jenkins job. 
+
+> _new in version 0.4.0_
+
+If you need _authentication_, just add `username` and `password_or_token` in the `.jenkins` file and you are ready to go.
+
 
 ```json
 {
     "url": "http://127.0.0.1:8080/job/myproject",
-    "username": "jenkinsuser",
-    "password": "jenkinspassword"
+    "username": "jenkins_user",
+    "password": "jenkins_password_or_token"
 }
 ``` 
 
@@ -35,29 +40,6 @@ It is automatically enabled if you have a `.jenkins` file in the root folder of 
     "jenkins.polling": 2
 ```
 > Note: 0 (zero) means _no update_
-
-# Changelog
-
-## Version 0.3.0
-
-* **New Command:** Open in Jenkins (Console Output)
-
-## Version 0.2.0
-
-* **New:** Polling for automatic status update (issue [#1](https://github.com/alefragnani/vscode-jenkins-status/issues/1))
-
-## Version 0.1.2
-
-* **Fix:** Support for larger JSON responses (PR [#7](https://github.com/alefragnani/vscode-jenkins-status/pull/7) - kudos to @vojtechhabarta)
-
-## Version 0.1.1
-
-* **Fix:** No StatusBar added when some connection error occurs (issue [#5](https://github.com/alefragnani/vscode-jenkins-status/issues/5))
-* **Fix:** Error running commands for non Jenkins project (issue [#6](https://github.com/alefragnani/vscode-jenkins-status/issues/6))
-
-## Version 0.1.0
-
-* Initial release
 
 # Participate
 
