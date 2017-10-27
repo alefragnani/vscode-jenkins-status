@@ -1,3 +1,7 @@
+## Version 0.4.1
+
+* **Fix:** Fix tooltip for failed builds (PR [#15](https://github.com/alefragnani/vscode-jenkins-status/pull/15) - kudos to @pzelnip)
+
 ## Version 0.4.0
 
 * **New:** Support Authentication (PR [#10](https://github.com/alefragnani/vscode-jenkins-status/pull/10) - kudos to @mikepatrick and @umens)

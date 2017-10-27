@@ -67,8 +67,9 @@ export class JenkinsIndicator {
                                     '<<Authenthication Required>>'; 
                             } else {
                                 this.statusBarItem.tooltip = 
-                                    'Job Name: ' + status.jobName + '\n' +
-                                    '<<Invalid Address>>'; 
+                                    'Job Name: ' + status.jobName + ' -- (FAILED)\n' +
+                                    'URL.....: ' + status.url + '\n' +
+                                    'Build #.: ' + status.buildNr;
                             }
                             break;
                     
