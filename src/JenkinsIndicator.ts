@@ -9,12 +9,13 @@ export class JenkinsIndicator {
 
     private statusBarItem: vscode.StatusBarItem;
     private currentStatus: Jenkins.JenkinsStatus = <Jenkins.JenkinsStatus>{};
+    private currentBasePath: string;
 
     dispose() {
         this.hideReadOnly();
     }
 
-    public updateJenkinsStatus() {
+    public updateJenkinsStatus(basePath: string) {
 
         return new Promise((resolve, reject) => {
             // Create as needed
@@ -22,14 +23,26 @@ export class JenkinsIndicator {
                 this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
             }
 
+            // even if 'not available', it has to update the current 'updated'
+            this.currentBasePath = basePath;
+
+            if (!fs.existsSync(path.join(basePath, '.jenkins'))) {
+                this.statusBarItem.tooltip = 'No Jenkins defined for this project';
+                this.statusBarItem.text = '(No Jenkins)';
+                this.statusBarItem.show();
+                this.currentStatus = <Jenkins.JenkinsStatus>{};
+                resolve(true);
+                return;
+            }
+
             let jjj: Jenkins.Jenkins;
             jjj = new Jenkins.Jenkins;
-
 
             let url: string;
             let user: string;
             let pw: string;
-            let settings = JSON.parse(fs.readFileSync(path.join(vscode.workspace.rootPath, '.jenkins')).toString());
+
+            let settings = JSON.parse(fs.readFileSync(path.join(basePath, '.jenkins')).toString());
             url = settings.url;
             user = settings.username ? settings.username : "";
             pw = settings.password ? settings.password : "";
@@ -42,8 +55,8 @@ export class JenkinsIndicator {
                 this.currentStatus = <Jenkins.JenkinsStatus>{};
                 resolve(true);
                 return;
-            }            
-        
+            }     
+            
             jjj.getStatus(url, user, pw)
                 .then((status) => {
 
@@ -97,6 +110,13 @@ export class JenkinsIndicator {
     public getCurrentStatus(): Jenkins.JenkinsStatus {
         return this.currentStatus;
     }
+
+    /**
+     * getCurrentBasePath
+     */
+    public getCurrentBasePath() {
+        return this.currentBasePath;
+    }
 }
 
 export class JenkinsIndicatorController {
@@ -108,7 +128,7 @@ export class JenkinsIndicatorController {
     constructor(indicator: JenkinsIndicator) {
         let myself = this;
         this.jenkinsIndicator = indicator;
-        this.jenkinsIndicator.updateJenkinsStatus();
+        // this.jenkinsIndicator.updateJenkinsStatus();
     }
 
     dispose() {
@@ -116,7 +136,7 @@ export class JenkinsIndicatorController {
     }
 
     private onEvent() {
-        this.jenkinsIndicator.updateJenkinsStatus();
+        this.jenkinsIndicator.updateJenkinsStatus("asdf");
     }
 
 }

@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator; 
     
     let hasJenkinsInRoot: boolean;
-    hasJenkinsInRoot = vscode.workspace.rootPath && fs.existsSync(path.join(vscode.workspace.rootPath, '.jenkins'));
+    hasJenkinsInRoot = hasJenkinsInAnyRoot();
     if (hasJenkinsInRoot) {
         jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
         let jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
@@ -24,6 +24,11 @@ export function activate(context: vscode.ExtensionContext) {
     
     let dispUpdateStatus = vscode.commands.registerCommand('jenkins.updateStatus', () => updateStatus());
     context.subscriptions.push(dispUpdateStatus);
+
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => updateStatus()));
+    context.subscriptions.push(vscode.window.onDidChangeTextEditorViewColumn(e => updateStatus()));
+    context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => updateStatus()));
+    context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(e => updateStatus()));    
 
     let dispOpenInJenkins = vscode.commands.registerCommand('jenkins.openInJenkins', () => {
         if (!hasJenkinsInRoot) {
@@ -59,8 +64,11 @@ export function activate(context: vscode.ExtensionContext) {
     function updateStatus() {
         if (!hasJenkinsInRoot) {
             vscode.window.showWarningMessage('The project is not enabled for Jenkins. Missing .jenkins file.');
-        } else {
-            jenkinsIndicator.updateJenkinsStatus();
+            return;
+        } 
+        
+        if (jenkinsIndicator.getCurrentBasePath() !== getCurrentBasePath()) {
+            jenkinsIndicator.updateJenkinsStatus(getCurrentBasePath());
         }
     };
     
@@ -69,4 +77,30 @@ export function activate(context: vscode.ExtensionContext) {
     if (polling > 0) {
         setInterval(updateStatus, polling * 60000);
     }
+
+    function hasJenkinsInAnyRoot(): boolean {
+
+        if (!vscode.workspace.workspaceFolders) {
+            return false;
+        }
+
+        let hasAny: boolean = false;
+
+        for (let index = 0; index < vscode.workspace.workspaceFolders.length; index++) {
+            let element: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[index];
+            hasAny = fs.existsSync(path.join(element.uri.fsPath, '.jenkins'));
+            if (hasAny) {
+                return hasAny;
+            }
+        }
+    }
+
+    function getCurrentBasePath(): string {
+        if (!vscode.workspace.workspaceFolders) {
+            return undefined;
+        }
+
+        return vscode.workspace.getWorkspaceFolder(vscode.window.activeTextEditor.document.uri).uri.fsPath;
+    }
+
 }
