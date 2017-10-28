@@ -111,9 +111,6 @@ export class JenkinsIndicator {
         return this.currentStatus;
     }
 
-    /**
-     * getCurrentBasePath
-     */
     public getCurrentBasePath() {
         return this.currentBasePath;
     }
@@ -128,15 +125,9 @@ export class JenkinsIndicatorController {
     constructor(indicator: JenkinsIndicator) {
         let myself = this;
         this.jenkinsIndicator = indicator;
-        // this.jenkinsIndicator.updateJenkinsStatus();
     }
 
     dispose() {
         this.disposable.dispose();
     }
-
-    private onEvent() {
-        this.jenkinsIndicator.updateJenkinsStatus("asdf");
-    }
-
 }
