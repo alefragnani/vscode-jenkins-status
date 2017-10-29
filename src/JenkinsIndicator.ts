@@ -1,17 +1,17 @@
-'use strict'
+"use strict"
 
-import * as vscode from 'vscode';
-import fs = require('fs');
-import * as Jenkins from './Jenkins';
-import path = require('path');
+import fs = require("fs");
+import path = require("path");
+import * as vscode from "vscode";
+import * as Jenkins from "./Jenkins";
 
 export class JenkinsIndicator {
 
     private statusBarItem: vscode.StatusBarItem;
-    private currentStatus: Jenkins.JenkinsStatus = <Jenkins.JenkinsStatus>{};
+    private currentStatus: Jenkins.JenkinsStatus = <Jenkins.JenkinsStatus> {};
     private currentBasePath: string;
 
-    dispose() {
+    public dispose() {
         this.hideReadOnly();
     }
 
@@ -26,33 +26,33 @@ export class JenkinsIndicator {
             // even if 'not available', it has to update the current 'updated'
             this.currentBasePath = basePath;
 
-            if (!fs.existsSync(path.join(basePath, '.jenkins'))) {
-                this.statusBarItem.tooltip = 'No Jenkins defined for this project';
-                this.statusBarItem.text = '(No Jenkins)';
+            if (!fs.existsSync(path.join(basePath, ".jenkins"))) {
+                this.statusBarItem.tooltip = "No Jenkins defined for this project";
+                this.statusBarItem.text = "(No Jenkins)";
                 this.statusBarItem.show();
-                this.currentStatus = <Jenkins.JenkinsStatus>{};
+                this.currentStatus = <Jenkins.JenkinsStatus> {};
                 resolve(true);
                 return;
             }
 
             let jjj: Jenkins.Jenkins;
-            jjj = new Jenkins.Jenkins;
+            jjj = new Jenkins.Jenkins();
 
             let url: string;
             let user: string;
             let pw: string;
 
-            let settings = JSON.parse(fs.readFileSync(path.join(basePath, '.jenkins')).toString());
+            const settings = JSON.parse(fs.readFileSync(path.join(basePath, ".jenkins")).toString());
             url = settings.url;
             user = settings.username ? settings.username : "";
             pw = settings.password ? settings.password : "";
 
             // invalid URL
             if (!url) {
-                this.statusBarItem.tooltip = 'No URL Defined';
-                this.statusBarItem.text = 'Jenkins $(x)';
+                this.statusBarItem.tooltip = "No URL Defined";
+                this.statusBarItem.text = "Jenkins $(x)";
                 this.statusBarItem.show();
-                this.currentStatus = <Jenkins.JenkinsStatus>{};
+                this.currentStatus = <Jenkins.JenkinsStatus> {};
                 resolve(true);
                 return;
             }     
@@ -65,38 +65,38 @@ export class JenkinsIndicator {
 
                     switch (status.status) {
                         case Jenkins.BuildStatus.Sucess:
-                            icon = ' $(check)';
+                            icon = " $(check)";
                             this.statusBarItem.tooltip = 
-                                'Job Name: ' + status.jobName + '\n' +
-                                'URL.....: ' + status.url + '\n' +
-                                'Build #.: ' + status.buildNr; 
+                                "Job Name: " + status.jobName + "\n" +
+                                "URL.....: " + status.url + "\n" +
+                                "Build #.: " + status.buildNr; 
                             break;
 
                         case Jenkins.BuildStatus.Failed:
-                            icon = ' $(x)';
-                            if (status.connectionStatus == Jenkins.ConnectionStatus.AuthenticationRequired) {
+                            icon = " $(x)";
+                            if (status.connectionStatus === Jenkins.ConnectionStatus.AuthenticationRequired) {
                                 this.statusBarItem.tooltip = 
-                                    'Job Name: ' + status.jobName + '\n' +
-                                    '<<Authenthication Required>>'; 
+                                    "Job Name: " + status.jobName + "\n" +
+                                    "<<Authenthication Required>>"; 
                             } else {
                                 this.statusBarItem.tooltip = 
-                                    'Job Name: ' + status.jobName + ' -- (FAILED)\n' +
-                                    'URL.....: ' + status.url + '\n' +
-                                    'Build #.: ' + status.buildNr;
+                                    "Job Name: " + status.jobName + " -- (FAILED)\n" +
+                                    "URL.....: " + status.url + "\n" +
+                                    "Build #.: " + status.buildNr;
                             }
                             break;
                     
                         default:
-                            icon = ' $(stop)';
+                            icon = " $(stop)";
                             this.statusBarItem.tooltip = 
-                                'Job Name: ' + status.jobName + '\n' +
-                                'URL.....: ' + status.url + '\n' +
-                                'Build #.: ' + status.buildNr; 
+                                "Job Name: " + status.jobName + "\n" +
+                                "URL.....: " + status.url + "\n" +
+                                "Build #.: " + status.buildNr; 
                     }
                         
-                    this.statusBarItem.text = 'Jenkins' + icon;
+                    this.statusBarItem.text = "Jenkins" + icon;
                     this.statusBarItem.show();
-                    resolve(status != undefined);
+                    resolve(status !== undefined);
                 });
         });
     }
@@ -120,14 +120,14 @@ export class JenkinsIndicatorController {
 
     private jenkinsIndicator: JenkinsIndicator;
     private disposable: vscode.Disposable;
-    private _isControlled: boolean = false;
+    // private _isControlled: boolean = false;
 
     constructor(indicator: JenkinsIndicator) {
-        let myself = this;
+        const myself = this;
         this.jenkinsIndicator = indicator;
     }
 
-    dispose() {
+    public dispose() {
         this.disposable.dispose();
     }
 }
