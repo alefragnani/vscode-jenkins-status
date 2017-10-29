@@ -8,6 +8,7 @@
 		"no-duplicate-key": true,
 		"no-unused-variable": true,
 		"no-trailing-whitespace": false,
+		"no-angle-bracket-type-assertion": false,
 		"interface-name": [
 			false
 		],
