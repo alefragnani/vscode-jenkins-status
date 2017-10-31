@@ -1,3 +1,7 @@
+## Version 0.5.0
+
+* **New:** Multi-root support (issue [#18](https://github.com/alefragnani/vscode-jenkins/status/issues/18))
+
 ## Version 0.4.1
 
 * **Fix:** Fix tooltip for failed builds (PR [#15](https://github.com/alefragnani/vscode-jenkins-status/pull/15) - kudos to @pzelnip)
