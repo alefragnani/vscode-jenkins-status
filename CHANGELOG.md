@@ -1,3 +1,7 @@
+## Version 0.5.1
+
+* **Fix:** Error while opening single-root workspace with no active file
+
 ## Version 0.5.0
 
 * **New:** Multi-root support (issue [#18](https://github.com/alefragnani/vscode-jenkins/status/issues/18))
