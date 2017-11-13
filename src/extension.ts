@@ -131,6 +131,14 @@ export function activate(context: vscode.ExtensionContext) {
             return undefined;
         }
 
+        if (!vscode.window.activeTextEditor) {
+            if (vscode.workspace.workspaceFolders.length === 1) {
+                return vscode.workspace.workspaceFolders[0].uri.fsPath;
+            } else {
+                return undefined;
+            }
+        }
+
         return vscode.workspace.getWorkspaceFolder(vscode.window.activeTextEditor.document.uri).uri.fsPath;
     }
 
