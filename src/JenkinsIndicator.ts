@@ -47,6 +47,8 @@ export class JenkinsIndicator {
             user = settings.username ? settings.username : "";
             pw = settings.password ? settings.password : "";
 
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = settings.strictTls ? 1 : 0;
+
             // invalid URL
             if (!url) {
                 this.statusBarItem.tooltip = "No URL Defined";

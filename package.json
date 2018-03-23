@@ -4,10 +4,10 @@
     "description": "View your project's Jenkins status inside Visual Studio Code",
     "version": "0.5.1",
     "publisher": "alefragnani",
-	"galleryBanner": {
-		"color": "#168bb9",
-		"theme": "dark"
-	},
+    "galleryBanner": {
+        "color": "#168bb9",
+        "theme": "dark"
+    },
     "engines": {
         "vscode": "^1.18.0"
     },
@@ -28,14 +28,14 @@
     "main": "./out/src/extension",
     "icon": "images/icon.png",
     "license": "SEE LICENSE IN LICENSE.md",
-	"homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/alefragnani/vscode-jenkins-status.git"
-	},
-	"bugs": {
-		"url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
-	},
+    "homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alefragnani/vscode-jenkins-status.git"
+    },
+    "bugs": {
+        "url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
+    },
     "contributes": {
         "commands": [
             {
@@ -51,17 +51,17 @@
                 "title": "Jenkins: Open in Jenkins (Console Output)"
             }
         ],
-        "configuration": {			
-			"type": "object",
-			"title": "Jenkins Status Configuration",
-			"properties": {
-				"jenkins.polling": {
-					"type": "integer",
-					"default": 0,
-					"description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
-				}
-			}
-		}
+        "configuration": {
+            "type": "object",
+            "title": "Jenkins Status Configuration",
+            "properties": {
+                "jenkins.polling": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
