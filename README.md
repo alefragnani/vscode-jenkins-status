@@ -26,7 +26,7 @@ If you need _authentication_, just add `username` and `password_or_token` in the
 If you are having trouble with self-signed certificates and your build status says `SELF_SIGNED_CERT_IN_CHAIN`, you could use a _workaroud_ adding a `strictTls` flag to your `.jenkins` file:
 
 ```json
-    "strictTls": true
+    "strictTls": false
 ```
 
 ## Available commands

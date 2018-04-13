@@ -1,3 +1,7 @@
+## [0.6.1] - 2018-04-13
+### Fixed
+- Incorrect value in `strictTls` sample
+
 ## [0.6.0] - 2018-04-13
 ### Added
 - HTTPS Support using `NODE_TLS_REJECT_UNAUTHORIZED` environment variable (PR [#23](https://github.com/alefragnani/vscode-jenkins-status/pull/23) - kudos to @grzegorzjudas)
