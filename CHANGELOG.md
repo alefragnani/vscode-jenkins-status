@@ -1,3 +1,7 @@
+## Version 0.6.0
+
+* **New:** HTTPS Support using `NODE_TLS_REJECT_UNAUTHORIZED` environment variable (PR [#23](https://github.com/alefragnani/vscode-jenkins-status/pull/23) - kudos to @grzegorzjudas)
+
 ## Version 0.5.1
 
 * **Fix:** Error while opening single-root workspace with no active file
