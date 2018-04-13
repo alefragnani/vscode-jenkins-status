@@ -47,7 +47,9 @@ export class JenkinsIndicator {
             user = settings.username ? settings.username : "";
             pw = settings.password ? settings.password : "";
 
-            process.env.NODE_TLS_REJECT_UNAUTHORIZED = settings.strictTls ? 1 : 0;
+            if (settings.strictTls !== undefined) {
+                process.env.NODE_TLS_REJECT_UNAUTHORIZED = settings.strictTls ? 1 : 0;
+            }
 
             // invalid URL
             if (!url) {
