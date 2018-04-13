@@ -2,7 +2,7 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#168bb9",
