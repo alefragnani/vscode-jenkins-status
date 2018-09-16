@@ -1,3 +1,7 @@
+## [2.2.0] - 2018-04-16
+### Added
+- Patreon button
+
 ## [0.6.1 - 2.1.1] - 2018-04-13
 ### Fixed
 - Incorrect value in `strictTls` sample
