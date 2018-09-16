@@ -1,14 +1,14 @@
-# Functionality
+# Jenkins Status
+
+**Jenkins Status** is an open source extension created for **Visual Studio Code**. While being free and open source, if you find it useful, please consider [supporting it](#support)
+
+It adds an area in the status bar, indicating the build status for any **Jenkins** job. Specially useful if you want to _connect_ a project with its CI server. 
+
+# Features
 
 View the Jenkins build status of your project inside Visual Studio Code.
 
 ![screenshot](images/jenkins-screenshot.png)
-
-# Installation
-
-Press `F1` in VSCode, type `ext install` and then look for `jenkins`.
-
-# Usage
 
 It is automatically enabled if you have a `.jenkins` file in the root folder of your project. The only required information is the `url` pointing to your Jenkins job. 
 
@@ -31,11 +31,9 @@ If you are having trouble with self-signed certificates and your build status sa
 
 ## Available commands
 
-* **Jenkins: Open in Jenkins:** Open the Jenkins project in you browser 
-* **Jenkins: Open in Jenkins (Console Output):** Open the Console Output of the Jenkins project in you browser 
-* **Jenkins: Update Status:** Manually update the status of our Jenkins project
-
-![Commands](images/jenkins-commands.png)
+* `Jenkins: Open in Jenkins:` Open the Jenkins project in you browser 
+* `Jenkins: Open in Jenkins (Console Output):` Open the Console Output of the Jenkins project in you browser 
+* `Jenkins: Update Status:` Manually update the status of our Jenkins project
 
 ## Available settings
 
