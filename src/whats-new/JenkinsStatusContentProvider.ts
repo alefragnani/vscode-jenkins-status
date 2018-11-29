@@ -1,0 +1,32 @@
+// tslint:disable-next-line:max-line-length
+import { ChangeLogItem, ChangeLogKind, ContentProvider, Header, Image, Sponsor } from "../../vscode-whats-new/src/ContentProvider";
+
+export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
+
+    public provideHeader(logoUrl: string): Header {
+        return <Header> {logo: <Image> {src: logoUrl, height: 50, width: 50}, 
+            message: `<b>Jenkins Status</b> adds an area in the status bar, indicating the 
+            <b>build status</b> for any <b>Jenkins</b> job. Specially useful if you want to 
+            <i>connect</i> a project with its CI server`};
+    }
+
+    public provideChangeLog(): ChangeLogItem[] {
+        const changeLog: ChangeLogItem[] = [];
+        changeLog.push({kind: ChangeLogKind.NEW, message: "<b>Multi-root</b> support"});
+        changeLog.push({kind: ChangeLogKind.NEW, message: "Support connection with <b>HTTPS</b>"});
+        changeLog.push({kind: ChangeLogKind.NEW, message: `Support connection to secure Jenkins servers via <b>Authentication</b> 
+            (Thanks to @mikepatrick and @umens - <a title=\"Open PR #15\" 
+            href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/10\">
+            PR #10</a>)</b>`});
+        changeLog.push({kind: ChangeLogKind.FIXED, message: `Tooltip for failed builds (Thanks to @pzelnip 
+            - <a title=\"Open PR #10\" href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/15\">
+            PR #15</a>)</b>`});
+        return changeLog;
+    }
+
+    public provideSponsors(): Sponsor[] {
+        const sponsors: Sponsor[] = [];
+        return sponsors
+    }
+   
+}

@@ -23,7 +23,8 @@
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",
-        "workspaceContains:.jenkins"
+        "workspaceContains:.jenkins",
+        "*"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
@@ -49,6 +50,10 @@
             {
                 "command": "jenkins.openInJenkinsConsoleOutput",
                 "title": "Jenkins: Open in Jenkins (Console Output)"
+            },
+            {
+                "command": "jenkins.whatsNew",
+                "title": "Jenkins: What's New"
             }
         ],
         "configuration": {
