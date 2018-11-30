@@ -13,8 +13,8 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
         changeLog.push({kind: ChangeLogKind.NEW, message: "<b>Multi-root</b> support"});
-        changeLog.push({kind: ChangeLogKind.NEW, message: "Support connection with <b>HTTPS</b>"});
-        changeLog.push({kind: ChangeLogKind.NEW, message: `Support connection to secure Jenkins servers via <b>Authentication</b> 
+        changeLog.push({kind: ChangeLogKind.NEW, message: "<b>HTTPS</b> servers support"});
+        changeLog.push({kind: ChangeLogKind.NEW, message: `<b>Authentication</b> support 
             (Thanks to @mikepatrick and @umens - <a title=\"Open PR #15\" 
             href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/10\">
             PR #10</a>)</b>`});
