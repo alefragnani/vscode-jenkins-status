@@ -20,11 +20,11 @@
         "multi-root ready"
     ],
     "activationEvents": [
+        "workspaceContains:.jenkins",
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",
-        "workspaceContains:.jenkins",
-        "*"
+        "onCommand:jenkins.whatsNew"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
