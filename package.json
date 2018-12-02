@@ -2,14 +2,14 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#168bb9",
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.18.0"
+        "vscode": "^1.23.0"
     },
     "categories": [
         "Other"
@@ -20,10 +20,11 @@
         "multi-root ready"
     ],
     "activationEvents": [
+        "workspaceContains:.jenkins",
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",
-        "workspaceContains:.jenkins"
+        "onCommand:jenkins.whatsNew"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
@@ -49,6 +50,10 @@
             {
                 "command": "jenkins.openInJenkinsConsoleOutput",
                 "title": "Jenkins: Open in Jenkins (Console Output)"
+            },
+            {
+                "command": "jenkins.whatsNew",
+                "title": "Jenkins: What's New"
             }
         ],
         "configuration": {
@@ -74,7 +79,7 @@
     },
     "devDependencies": {
         "@types/node": "^6.0.40",
-        "typescript": "^2.3.2",
-        "vscode": "^1.1.6"
+        "typescript": "^3.1.6",
+        "vscode": "^1.1.21"
     }
 }

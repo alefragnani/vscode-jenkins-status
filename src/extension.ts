@@ -6,21 +6,27 @@ import fs = require("fs");
 import open = require("open");
 import path = require("path");
 import * as vscode from "vscode";
+import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import { BuildStatus, JenkinsStatus } from "./Jenkins";
 import * as JenkinsIndicator from "./JenkinsIndicator";
-// const open = require("open");
+import { WhatsNewJenkinsStatusContentProvider } from "./whats-new/JenkinsStatusContentProvider";
 
 export function activate(context: vscode.ExtensionContext) {
 
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
     let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
-    let hasJenkinsInRoot: boolean;
+    let hasJenkinsInRoot: boolean;    
     
     hasJenkinsInRoot = hasJenkinsInAnyRoot();
     if (hasJenkinsInRoot) {
         createJenkinsIndicator(context);
         updateStatus();
     }
+
+    const provider = new WhatsNewJenkinsStatusContentProvider();
+    const viewer = new WhatsNewManager(context).registerContentProvider("jenkins-status", provider);
+    viewer.showPageInActivation();
+    context.subscriptions.push(vscode.commands.registerCommand("jenkins.whatsNew", () => viewer.showPage()));
     
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);
