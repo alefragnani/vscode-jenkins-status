@@ -26,6 +26,7 @@ export class JenkinsIndicator {
             // Create as needed
             if (!this.statusBarItem) {
                 this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+                this.statusBarItem.command = "jenkins.openInJenkinsConsoleOutput"
             }
 
             // even if 'not available', it has to update the current 'updated'
@@ -74,7 +75,7 @@ export class JenkinsIndicator {
 
                     switch (status.status) {
                         case Jenkins.BuildStatus.Sucess:
-                            icon = " $(check)";
+                            icon = "$(check) ";
                             this.statusBarItem.tooltip = 
                                 "Job Name: " + status.jobName + "\n" +
                                 "URL.....: " + status.url + "\n" +
@@ -82,7 +83,7 @@ export class JenkinsIndicator {
                             break;
 
                         case Jenkins.BuildStatus.Failed:
-                            icon = " $(x)";
+                            icon = "$(alert) ";
                             if (status.connectionStatus === Jenkins.ConnectionStatus.AuthenticationRequired) {
                                 this.statusBarItem.tooltip = 
                                     "Job Name: " + status.jobName + "\n" +
@@ -96,14 +97,14 @@ export class JenkinsIndicator {
                             break;
                     
                         default:
-                            icon = " $(stop)";
+                            icon = "$(stop) ";
                             this.statusBarItem.tooltip = 
                                 "Job Name: " + status.jobName + "\n" +
                                 "URL.....: " + status.url + "\n" +
                                 "Build #.: " + status.buildNr; 
                     }
                         
-                    this.statusBarItem.text = "Jenkins" + icon;
+                    this.statusBarItem.text = icon + "Jenkins";
                     this.statusBarItem.show();
                     resolve(status !== undefined);
                 });
