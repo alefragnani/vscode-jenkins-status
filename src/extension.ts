@@ -5,7 +5,6 @@
 
 "use strict";
 
-import {exec} from "child_process";
 import fs = require("fs");
 import opn = require("opn");
 import path = require("path");
