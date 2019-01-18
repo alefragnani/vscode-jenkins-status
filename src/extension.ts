@@ -7,7 +7,7 @@
 
 import {exec} from "child_process";
 import fs = require("fs");
-import open = require("open");
+import opn = require("opn");
 import path = require("path");
 import * as vscode from "vscode";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
@@ -60,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
         
         const settings = JSON.parse(fs.readFileSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins")).toString());
-        open(settings.url);
+        opn(settings.url);
     });
     context.subscriptions.push(dispOpenInJenkins);
 
@@ -80,7 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
         let status: JenkinsStatus;
         status = jenkinsIndicator.getCurrentStatus();   
         if (status.status !== BuildStatus.Disabled) {
-            open(settings.url + status.buildNr.toString() + "/console");
+            opn(settings.url + status.buildNr.toString() + "/console");
         } else {
             vscode.window.showWarningMessage("The Jenkins job has some connnection issues. Please check the status bar for more information.");
         }         

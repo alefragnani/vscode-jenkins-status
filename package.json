@@ -74,8 +74,9 @@
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "dependencies": {
-        "request": "^2.72.0",
-        "open": "^0.0.5"
+        "@types/opn": "^5.1.0",
+        "opn": "^5.4.0",
+        "request": "^2.88.0"
     },
     "devDependencies": {
         "@types/node": "^6.0.40",
