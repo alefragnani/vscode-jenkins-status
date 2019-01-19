@@ -5,9 +5,9 @@
 
 # What's new in Jenkins Status 3
 
-* **Multi-root** Support
-* **HTTPS** Support
-* **Authentication** Support
+* Adds **Multi-root** Support
+* Adds **HTTPS** Support
+* Adds **Authentication** Support
 
 ## Support
 

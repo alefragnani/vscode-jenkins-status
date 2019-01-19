@@ -1,3 +1,7 @@
+## [3.1.0] - 2019-01-18
+### Added
+- Status Bar improvements (Thanks to @LinuxSuRen [PR #29](https://github.com/alefragnani/vscode-jenkins-status/pull/29))
+
 ## [3.0.0] - 2018-12-02
 ### Added
 - What's New
