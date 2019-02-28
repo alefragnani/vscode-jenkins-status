@@ -44,7 +44,7 @@ If you need _authentication_, just add `username` and `password_or_token` in the
 
 ```json
 {
-    "url": "http://127.0.0.1:8080/job/myproject",
+    "url": "http://127.0.0.1:8080/job/myproject/",
     "username": "jenkins_user",
     "password": "jenkins_password_or_token"
 }
