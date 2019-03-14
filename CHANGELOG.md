@@ -1,4 +1,4 @@
-## [3.1.1] - 2019-01-18
+## [3.1.1] - 2019-03-14
 ### Fixed
 - What's New page broken in VS Code 1.32 due to CSS API changes
 - Updated `.jenkins` example in README (Thanks to @kimitaka [PR #31](https://github.com/alefragnani/vscode-jenkins-status/pull/31))
