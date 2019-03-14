@@ -2,10 +2,7 @@
 *  Copyright (c) Alessandro Fragnani. All rights reserved.
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-
-'use strict'
-
-var request = require('request');
+import request = require("request");
 
 export enum BuildStatus {
   Sucess, Failed, Disabled
@@ -50,17 +47,17 @@ export function colorToBuildStatusName(color: string): string {
     
     switch (color) {
       case "blue" :
-        return 'Sucess';
+        return "Sucess";
       case "blue_anime":
-        return 'Sucess';
+        return "Sucess";
       
       case "red" :
-        return 'Failed';
+        return "Failed";
       case "red_anime":
-        return 'Failed';
+        return "Failed";
       
       default:
-        return 'Disabled';
+        return "Disabled";
     }
   }
   
@@ -68,47 +65,46 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
   
     switch (status) {
       case ConnectionStatus.Connected:
-        return 'Connected';
+        return "Connected";
         
       case ConnectionStatus.InvalidAddress:
-        return 'Invalid Address';
+        return "Invalid Address";
     
       case ConnectionStatus.Error:
-        return 'Error';
+        return "Error";
     
       default:
-        return 'Authentication Required'
+        return "Authentication Required"
     }
 }
 
 export class Jenkins { 
 
-
   public getStatus(url: string, username: string, password: string) {
 
     return new Promise<JenkinsStatus>((resolve, reject) => {
 
-      let data = '';
+      let data = "";
       let statusCode: number;
       let result: JenkinsStatus;
       
       request
-        .get(url + '/api/json', {
-          'auth': {
-            'user': username,
-            'pass': password
+        .get(url + "/api/json", {
+          auth: {
+            user: username,
+            pass: password
           }
         })
-        .on('response', function(response) {
+        .on("response", function(response) {
           statusCode = response.statusCode;
         })
-        .on('data', function(chunk) {
+        .on("data", function(chunk) {
           data += chunk;
         })
-        .on('end', function() {
+        .on("end", function() {
           switch (statusCode) {
             case 200:
-                let myArr = JSON.parse(data);
+                const myArr = JSON.parse(data);
                 result = {
                   jobName: myArr.displayName,
                   url: myArr.url,
@@ -119,15 +115,15 @@ export class Jenkins {
                   connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected)
                 }
                 resolve(result);
-              break;
+                break;
               
             case 401:
             case 403:
               result = {
-                jobName: 'AUTHENTICATION NEEDED',
-                url: url,
+                jobName: "AUTHENTICATION NEEDED",
+                url,
                 status: BuildStatus.Disabled,
-                statusName: 'Disabled',
+                statusName: "Disabled",
                 buildNr: statusCode,
                 connectionStatus: ConnectionStatus.AuthenticationRequired,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.AuthenticationRequired)
@@ -137,10 +133,10 @@ export class Jenkins {
           
             default:
               result = {
-                jobName: 'Invalid URL',
-                url: url,
+                jobName: "Invalid URL",
+                url,
                 status: BuildStatus.Disabled,
-                statusName: 'Disabled',
+                statusName: "Disabled",
                 buildNr: statusCode,
                 connectionStatus: ConnectionStatus.InvalidAddress,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.InvalidAddress)
@@ -149,12 +145,12 @@ export class Jenkins {
               break;
           }
         })
-        .on('error', function(err) {
+        .on("error", function(err) {
           result = {
             jobName: err.toString(),
-            url: url,
+            url,
             status: BuildStatus.Disabled,
-            statusName: 'Disabled',
+            statusName: "Disabled",
             buildNr: err.code,
             connectionStatus: ConnectionStatus.Error,
             connectionStatusName: getConnectionStatusName(ConnectionStatus.Error)
