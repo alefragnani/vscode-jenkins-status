@@ -2,14 +2,14 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#168bb9",
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.23.0"
+        "vscode": "^1.32.0"
     },
     "categories": [
         "Other"
@@ -26,7 +26,7 @@
         "onCommand:jenkins.openInJenkinsConsoleOutput",
         "onCommand:jenkins.whatsNew"
     ],
-    "main": "./out/src/extension",
+    "main": "./dist/extension",
     "icon": "images/icon.png",
     "license": "SEE LICENSE IN LICENSE.md",
     "homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
@@ -69,18 +69,24 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
+        "build": "webpack --mode development",
+        "watch": "webpack --watch --mode development --info-verbosity verbose",
+        "vscode:prepublish": "webpack --mode production",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
         "compile": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "dependencies": {
-        "@types/opn": "^5.1.0",
-        "opn": "^5.4.0",
         "request": "^2.88.0"
     },
     "devDependencies": {
         "@types/node": "^6.0.40",
         "typescript": "^3.1.6",
-        "vscode": "^1.1.22"
+        "vscode": "^1.1.28",
+        "webpack": "^4.19.1",
+        "webpack-cli": "^3.1.0",
+        "ts-loader": "^4.4.2",
+        "terser-webpack-plugin": "^1.2.1"
     }
 }
