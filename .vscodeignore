@@ -1,10 +1,13 @@
 .vscode/**
 typings/**
 out/test/**
-test/**
-src/**
 **/*.ts
 **/*.map
+out/**
+node_modules/**
 .gitignore
 tsconfig.json
 vsc-extension-quickstart.md
+npm-debug.log
+package-lock.json
+webpack.config.js
