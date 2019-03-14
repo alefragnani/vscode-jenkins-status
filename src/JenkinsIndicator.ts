@@ -3,8 +3,6 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-"use strict"
-
 import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";

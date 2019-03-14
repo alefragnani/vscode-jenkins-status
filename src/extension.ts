@@ -3,10 +3,7 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-"use strict";
-
 import fs = require("fs");
-import opn = require("opn");
 import path = require("path");
 import * as vscode from "vscode";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
@@ -59,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
         
         const settings = JSON.parse(fs.readFileSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins")).toString());
-        opn(settings.url);
+        vscode.env.openExternal(vscode.Uri.parse(settings.url));
     });
     context.subscriptions.push(dispOpenInJenkins);
 
@@ -79,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
         let status: JenkinsStatus;
         status = jenkinsIndicator.getCurrentStatus();   
         if (status.status !== BuildStatus.Disabled) {
-            opn(settings.url + status.buildNr.toString() + "/console");
+            vscode.env.openExternal(vscode.Uri.parse(settings.url + status.buildNr.toString() + "/console"));
         } else {
             vscode.window.showWarningMessage("The Jenkins job has some connnection issues. Please check the status bar for more information.");
         }         
