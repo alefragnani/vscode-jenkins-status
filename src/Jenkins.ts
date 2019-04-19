@@ -87,14 +87,21 @@ export class Jenkins {
       let data = "";
       let statusCode: number;
       let result: JenkinsStatus;
-      
-      request
-        .get(url + "/api/json", {
+
+      let auth_info: any;
+      if (username) {
+        auth_info = {
           auth: {
             user: username,
             pass: password
           }
-        })
+        };
+      } else {
+        auth_info = {};
+      }
+      
+      request
+        .get(url + "/api/json", auth_info)
         .on("response", function(response) {
           statusCode = response.statusCode;
         })
