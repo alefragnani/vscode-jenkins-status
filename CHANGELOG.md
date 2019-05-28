@@ -1,3 +1,7 @@
+## [3.1.2] - 2019-05-28
+### Fixed
+- Security Alert: tar
+
 ## [3.1.1] - 2019-03-14
 ### Fixed
 - What's New page broken in VS Code 1.32 due to CSS API changes
