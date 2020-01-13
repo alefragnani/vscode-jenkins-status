@@ -1,9 +1,9 @@
 {
     "name": "jenkins-status",
-    "displayName": "Jenkins Status",
-    "description": "View your project's Jenkins status inside Visual Studio Code",
+    "displayName": "Jenkins Status (fork)",
+    "description": "View your project's Jenkins status inside Visual Studio Code (forked from jenkins-status extension to allow multiple job configuration). This extension will be removed once changes have been merged in original one",
     "version": "3.1.2",
-    "publisher": "alefragnani",
+    "publisher": "eramitmittal",
     "galleryBanner": {
         "color": "#168bb9",
         "theme": "dark"

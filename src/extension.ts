@@ -7,7 +7,6 @@ import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";
 import * as JenkinsIndicator from "./JenkinsIndicator";
-import { resolve } from "url";
 
 export function activate(context: vscode.ExtensionContext) {
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
