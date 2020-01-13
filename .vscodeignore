@@ -3,7 +3,6 @@ typings/**
 out/test/**
 **/*.ts
 **/*.map
-out/**
 node_modules/**
 .gitignore
 tsconfig.json
