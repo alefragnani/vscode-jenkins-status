@@ -32,10 +32,10 @@
     "homepage": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/eramitmittal/vscode-jenkins-status"
+        "url": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md"
     },
     "bugs": {
-        "url": "https://github.com/eramitmittal/vscode-jenkins-status/issues"
+        "url": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md"
     },
     "contributes": {
         "commands": [
