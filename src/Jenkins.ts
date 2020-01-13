@@ -5,7 +5,7 @@
 import request = require("request");
 
 export enum BuildStatus {
-  Sucess, Failed, Disabled
+  Success, Failed, Disabled, InProgress
 }
 
 export enum ConnectionStatus {
@@ -20,24 +20,25 @@ export interface JenkinsStatus {
   statusName: string;
   connectionStatus: ConnectionStatus;
   connectionStatusName: string;
+  code: number;
 }
 
   /**s
    * colorToBuildStatus
    */
 export function colorToBuildStatus(color: string): BuildStatus {
-    
+  
+    if(color.endsWith('_anime')) return BuildStatus.InProgress;
+
     switch (color) {
       case "blue" :
-        return BuildStatus.Sucess;
-      case "blue_anime":
-        return BuildStatus.Sucess;
-      
+        return BuildStatus.Success;
+     
       case "red" :
         return BuildStatus.Failed;
-      case "red_anime":
-        return BuildStatus.Failed;
       
+      
+
       default:
         return BuildStatus.Disabled;
     }
@@ -45,21 +46,42 @@ export function colorToBuildStatus(color: string): BuildStatus {
 
 export function colorToBuildStatusName(color: string): string {
     
-    switch (color) {
-      case "blue" :
-        return "Sucess";
-      case "blue_anime":
-        return "Sucess";
-      
-      case "red" :
-        return "Failed";
-      case "red_anime":
-        return "Failed";
-      
-      default:
-        return "Disabled";
-    }
+  switch (color) {	  
+    case "blue" :	      
+      return 'Sucess';	
+    case "blue_anime":	
+      return 'Sucess';	
+            
+    case "red" :	      
+      return 'Failed';	
+    case "red_anime":	  
+      return 'Failed';	
+
+
+    case "yellow":
+      return "Unstable";
+    case "yellow_anime":
+      return "Unstable";
+
+    case "grey":
+      return "Pending";
+    case "grey_anime":
+      return "Pending";
+
+    case "aborted":
+      return "Aborted";
+    case "aborted_anime":
+      return "Aborted";
+
+    case "notbuilt":
+      return "Not built";
+    case "notbuilt_anime":
+      return "Not built";
+
+    default:
+      return 'Disabled';
   }
+}
   
 export function getConnectionStatusName(status: ConnectionStatus): string {
   
@@ -110,9 +132,14 @@ export class Jenkins {
                   url: myArr.url,
                   status: colorToBuildStatus(myArr.color),
                   statusName: colorToBuildStatusName(myArr.color),
-                  buildNr: myArr.lastBuild.number,
+                  buildNr: myArr.lastBuild ? myArr.lastBuild.number : 0,
                   connectionStatus: ConnectionStatus.Connected,
-                  connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected)
+                  connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected),
+                  code: undefined
+                }
+
+                if(result.status === BuildStatus.InProgress) {
+                  result.statusName = result.statusName + " (in progress)";
                 }
                 resolve(result);
                 break;
@@ -124,7 +151,8 @@ export class Jenkins {
                 url,
                 status: BuildStatus.Disabled,
                 statusName: "Disabled",
-                buildNr: statusCode,
+                buildNr: undefined,
+                code: statusCode,
                 connectionStatus: ConnectionStatus.AuthenticationRequired,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.AuthenticationRequired)
               }
@@ -137,7 +165,8 @@ export class Jenkins {
                 url,
                 status: BuildStatus.Disabled,
                 statusName: "Disabled",
-                buildNr: statusCode,
+                buildNr: undefined,
+                code: statusCode,
                 connectionStatus: ConnectionStatus.InvalidAddress,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.InvalidAddress)
               }
@@ -151,7 +180,8 @@ export class Jenkins {
             url,
             status: BuildStatus.Disabled,
             statusName: "Disabled",
-            buildNr: err.code,
+            buildNr: undefined,
+            code: err.code,
             connectionStatus: ConnectionStatus.Error,
             connectionStatusName: getConnectionStatusName(ConnectionStatus.Error)
           }

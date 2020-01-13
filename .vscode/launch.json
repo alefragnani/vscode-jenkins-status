@@ -9,7 +9,7 @@
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
 			"stopOnEntry": false,
-			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
+			"outFiles": ["${workspaceFolder}/out/**/*.js"],
             // "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/app/out/vs/**", "**/extensions/**"],
             "smartStep": true,
             "sourceMaps": true
