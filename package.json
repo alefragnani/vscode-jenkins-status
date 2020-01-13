@@ -29,13 +29,13 @@
     "main": "./out/src/extension",
     "icon": "images/icon.png",
     "license": "SEE LICENSE IN LICENSE.md",
-    "homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
+    "homepage": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alefragnani/vscode-jenkins-status.git"
+        "url": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md"
     },
     "bugs": {
-        "url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
+        "url": "https://github.com/eramitmittal/vscode-jenkins-status/blob/master/README.md"
     },
     "contributes": {
         "commands": [
