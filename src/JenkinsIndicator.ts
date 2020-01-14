@@ -9,13 +9,16 @@ import * as Jenkins from "./Jenkins";
 export class JenkinsIndicator {
 
     private statusBarItems: {[settingName: string]: vscode.StatusBarItem} = {};
+    private settingNameToUrl: {[settingName: string]: string} = {};
 
     public dispose() {
-        this.hideReadOnly();
+        this.hideReadOnly(this.statusBarItems);
     }
 
-    public updateJenkinsStatus(settings: any[], registerCommandForGivenSetting: (cmd: string, callback: () => void ) => void) {        
+    public updateJenkinsStatus(settings: any[], registerCommand: (cmd: string, callback: () => void ) => void, deRegisterCommand: (cmd: string) => void) {        
         let noNameCount = -1;
+        this.settingNameToUrl = {};
+
         for (let index = 0; index < settings.length; index++) {
             const setting = settings[index];
             if (!(setting.name)) {
@@ -23,24 +26,26 @@ export class JenkinsIndicator {
                 setting.name = "Jenkins " + (noNameCount ? noNameCount : "");
             }
 
+            this.settingNameToUrl[setting.name] = setting.url;
+
             // Create as needed
             if (!this.statusBarItems[setting.name]) {
                 this.statusBarItems[setting.name] = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-                registerCommandForGivenSetting("Jenkins." + setting.name + ".openInJenkins", () => {
-                    vscode.env.openExternal(vscode.Uri.parse(setting.url));
+                this.statusBarItems[setting.name].command = "Jenkins." + setting.name + ".openInJenkins";
+
+                registerCommand("Jenkins." + setting.name + ".openInJenkins", () => {
+                    vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name]));
                 });
-                registerCommandForGivenSetting("Jenkins." + setting.name + ".openInJenkinsConsoleOutput", () => {
+                registerCommand("Jenkins." + setting.name + ".openInJenkinsConsoleOutput", () => {
                     jjj.getStatus(url, user, pw)
                     .then((status) => {
                         if (status.connectionStatus === Jenkins.ConnectionStatus.Connected) {
-                            vscode.env.openExternal(vscode.Uri.parse(setting.url + status.buildNr.toString() + "/console"));
+                            vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name] + status.buildNr.toString() + "/console"));
                         } else {
                             vscode.window.showWarningMessage("The Jenkins job has some connection issues. Please check the status bar for more information.");     
                         }   
                     });
                 });
-
-                this.statusBarItems[setting.name].command = "Jenkins." + setting.name + ".openInJenkins";
             }
 
             let jjj: Jenkins.Jenkins;
@@ -54,11 +59,13 @@ export class JenkinsIndicator {
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = setting.strictTls ? "1" : "0";
             }
 
+            this.statusBarItems[setting.name].text = setting.name;
+            this.statusBarItems[setting.name].show();
+
             // invalid URL
             if (!url) {
                 this.statusBarItems[setting.name].tooltip = "No URL Defined";
                 this.statusBarItems[setting.name].text = "Jenkins $(x)";
-                this.statusBarItems[setting.name].show();
                 continue;
             }     
             
@@ -103,13 +110,30 @@ export class JenkinsIndicator {
                     this.statusBarItems[setting.name].tooltip = tooltip;
                     this.statusBarItems[setting.name].show();
                 });
-        }            
+        }
+
+        const tmpStatusBarItems = this.statusBarItems;
+        this.statusBarItems = {};
+        for (const key in this.settingNameToUrl) {
+            if (this.settingNameToUrl.hasOwnProperty(key)) {
+                this.statusBarItems[key] = tmpStatusBarItems[key];
+                delete tmpStatusBarItems[key];
+            }
+        }
+        
+        this.hideReadOnly(tmpStatusBarItems);
+        for (const key in tmpStatusBarItems) {
+            if (tmpStatusBarItems.hasOwnProperty(key)) {
+                deRegisterCommand("Jenkins." + key + ".openInJenkins");
+                deRegisterCommand("Jenkins." + key + ".openInJenkinsConsoleOutput");                
+            }
+        }
     }
 
-    public hideReadOnly() {
-        for (const key in this.statusBarItems) {
-            if (this.statusBarItems.hasOwnProperty(key)) {
-                const statusBarItem = this.statusBarItems[key];
+    public hideReadOnly(items) {
+        for (const key in items) {
+            if (items.hasOwnProperty(key)) {
+                const statusBarItem = items[key];
                 statusBarItem.dispose();                
             }
         }
