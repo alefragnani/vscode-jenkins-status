@@ -9,7 +9,7 @@
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.32.0"
+        "vscode": "^1.41.0"
     },
     "categories": [
         "Other"
@@ -24,18 +24,19 @@
         "workspaceContains:.jenkinsrc.js",
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
-        "onCommand:jenkins.openInJenkinsConsoleOutput"
+        "onCommand:jenkins.openInJenkinsConsoleOutput",
+        "onCommand:jenkins.whatsNew"
     ],
-    "main": "./out/src/extension",
+    "main": "./dist/extension",
     "icon": "images/icon.png",
     "license": "SEE LICENSE IN LICENSE.md",
     "homepage": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md"
+        "url": "https://github.com/alefragnani/vscode-jenkins-status.git"
     },
     "bugs": {
-        "url": "https://github.com/alefragnani/vscode-jenkins-status/blob/master/README.md"
+        "url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
     },
     "contributes": {
         "commands": [
@@ -50,6 +51,10 @@
             {
                 "command": "jenkins.openInJenkinsConsoleOutput",
                 "title": "Jenkins: Open in Jenkins (Console Output)"
+            },
+            {
+                "command": "jenkins.whatsNew",
+                "title": "Jenkins: What's New"
             }
         ],
         "configuration": {
@@ -65,10 +70,12 @@
         }
     },
     "scripts": {
-        "build": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "vscode:prepublish": "npm run build",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "build": "webpack --mode development",
+        "watch": "webpack --watch --mode development --info-verbosity verbose",
+        "vscode:prepublish": "webpack --mode production",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
+        "compile": "tsc -watch -p ./"
     },
     "dependencies": {
         "request": "^2.88.0"
@@ -76,7 +83,11 @@
     "devDependencies": {
         "@types/node": "^6.0.40",
         "typescript": "^3.1.6",
-        "vscode": "^1.1.28",
+        "@types/vscode": "^1.41.0",
+        "webpack": "^4.19.1",
+        "webpack-cli": "^3.1.0",
+        "ts-loader": "^4.4.2",
+        "terser-webpack-plugin": "^1.2.1",
         "tslint": "^5.20.1"
     }
 }

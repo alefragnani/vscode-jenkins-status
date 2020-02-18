@@ -6,7 +6,9 @@
 import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";
+import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import * as JenkinsIndicator from "./JenkinsIndicator";
+import { WhatsNewJenkinsStatusContentProvider } from "./whats-new/JenkinsStatusContentProvider";
 
 export function activate(context: vscode.ExtensionContext) {
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
@@ -17,6 +19,11 @@ export function activate(context: vscode.ExtensionContext) {
         updateStatus();
     }
 
+    const provider = new WhatsNewJenkinsStatusContentProvider();
+    const viewer = new WhatsNewManager(context).registerContentProvider("jenkins-status", provider);
+    viewer.showPageInActivation();
+    context.subscriptions.push(vscode.commands.registerCommand("jenkins.whatsNew", () => viewer.showPage()));
+    
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);
 
