@@ -30,11 +30,6 @@ export function activate(context: vscode.ExtensionContext) {
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);
 
-    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 1)) {
-            updateStatus(true)
-        }
-    }));
     context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(e => {
         if (hasJenkinsInAnyRoot()) {
             createJenkinsIndicator(context);
@@ -201,6 +196,15 @@ export function activate(context: vscode.ExtensionContext) {
         }
         return "";
     }
+
+    function createWatcher(folder: vscode.WorkspaceFolder) {
+        const fileSystemWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(folder, "*.{jenkins,jenkins.js}"));
+        fileSystemWatcher.onDidChange(uri => updateStatus(false), context.subscriptions);
+        fileSystemWatcher.onDidCreate(uri => updateStatus(false), context.subscriptions);
+        fileSystemWatcher.onDidDelete(uri => updateStatus(false), context.subscriptions);
+        context.subscriptions.push(fileSystemWatcher);
+    }
+    vscode.workspace.workspaceFolders.forEach(folder => createWatcher(folder));
 }
 
 class Command {
