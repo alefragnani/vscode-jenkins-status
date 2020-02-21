@@ -5,6 +5,7 @@
 
 import * as vscode from "vscode";
 import * as Jenkins from "./Jenkins";
+import { Setting } from "./setting";
 
 export class JenkinsIndicator {
 
@@ -15,7 +16,7 @@ export class JenkinsIndicator {
         this.hideReadOnly(this.statusBarItems);
     }
 
-    public updateJenkinsStatus(settings: any[], registerCommand: (cmd: string, callback: () => void ) => void, deRegisterCommand: (cmd: string) => void) {        
+    public updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void ) => void, deRegisterCommand: (cmd: string) => void): Setting[] {        
         let noNameCount = -1;
         this.settingNameToUrl = {};
 
@@ -128,6 +129,8 @@ export class JenkinsIndicator {
                 deRegisterCommand("Jenkins." + key + ".openInJenkinsConsoleOutput");                
             }
         }
+
+        return settings;
     }
 
     public hideReadOnly(items) {
@@ -138,6 +141,15 @@ export class JenkinsIndicator {
             }
         }
     }
+
+    // public getCommandFromSettingName(settingName: string){
+    //     for (const key in this.settingNameToUrl) {
+    //         if (this.settingNameToUrl.hasOwnProperty(settingName)) {
+    //             return statusBarItemsthis.statusBarItems[key] = tmpStatusBarItems[key];
+    //             delete tmpStatusBarItems[key];
+    //         }
+    //     }
+    // }
 }
 
 export class JenkinsIndicatorController {

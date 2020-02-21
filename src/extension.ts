@@ -8,11 +8,14 @@ import path = require("path");
 import * as vscode from "vscode";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
 import * as JenkinsIndicator from "./JenkinsIndicator";
+import { Setting } from "./setting";
 import { WhatsNewJenkinsStatusContentProvider } from "./whats-new/JenkinsStatusContentProvider";
 
 export function activate(context: vscode.ExtensionContext) {
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
     let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
+
+    let currentSettings: Setting[];
     
     if (hasJenkinsInAnyRoot()) {
         createJenkinsIndicator(context);
@@ -45,14 +48,14 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         } 
 
-        const settings = await getCurrentSettings();
+        const settings = currentSettings;
         if (!settings.length) {
             vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
             return;
         }
 
         if (settings.length > 1) {
-            vscode.window.showQuickPick(settings.map(setting => setting.name), {
+            vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
                 placeHolder : "Select the Jenkins job to open in browser"
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkins");
@@ -76,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         if (settings.length > 1) {
-            vscode.window.showQuickPick(settings.map(setting => setting.name), {
+            vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
                 placeHolder : "Select the Jenkins job to open in browser"
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkinsConsoleOutput");
@@ -105,7 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         if (jenkinsIndicator) { 
-            jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
+            currentSettings = jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
         }
     };
     
@@ -135,12 +138,12 @@ export function activate(context: vscode.ExtensionContext) {
         return hasAny;
     }
 
-    async function getCurrentSettings(): Promise<any[]> {
+    async function getCurrentSettings(): Promise<Setting[]> {
         if (!vscode.workspace.workspaceFolders) {
             return [];
         }
 
-        let settings = [];
+        let settings: Setting[] = [];
         try {
             for (const element of vscode.workspace.workspaceFolders) {
                 const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);            
