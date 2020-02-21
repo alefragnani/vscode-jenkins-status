@@ -1,13 +1,16 @@
 <p align="center">
   <br />
-  <a title="Learn more about Jenkins Status" href="http://github.com/alefragnani/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
+  <a title="Learn more about Jenkins Status" href="https://github.com/eramitmittal/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
 </p>
 
-# What's new in Jenkins Status 3
+# What's new in Jenkins Status 4
 
-* Adds **Multi-root** Support
-* Adds **HTTPS** Support
-* Adds **Authentication** Support
+* Adds **Multi-root** support
+* Adds **HTTPS** support
+* Adds **Authentication** support
+* Adds **Multiple Jobs** support
+* Adds **in-progress** status support
+* Improved **Status Bar** tooltip
 
 ## Support
 
@@ -37,10 +40,11 @@ View the Jenkins build status of your project inside Visual Studio Code.
 
 ![screenshot](images/jenkins-screenshot.png)
 
-It is automatically enabled if you have a `.jenkins` file in the root folder of your project. The only required information is the `url` pointing to your Jenkins job. 
+It is automatically enabled if you have a `.jenkins` or `.jenkinsrc.js` file in the root folder of your project. The only required information is the `url` pointing to your Jenkins job. 
 
 If you need _authentication_, just add `username` and `password_or_token` in the `.jenkins` file and you are ready to go.
 
+**.jenkins** file
 
 ```json
 {
@@ -49,8 +53,41 @@ If you need _authentication_, just add `username` and `password_or_token` in the
     "password": "jenkins_password_or_token"
 }
 ``` 
+or
+```json
+[
+    {
+        "url": "http://127.0.0.1:8080/job/myproject/",
+        "name": "Jenkins Build",
+        "username": "jenkins_user",
+        "password": "jenkins_password_or_token"
+    },
+    {
+        "url": "http://127.0.0.1:8080/job/myprojectTests/",
+        "name": "Jenkins Acceptance Tests",
+        "username": "jenkins_user",
+        "password": "jenkins_password_or_token"
+    }
+]
+``` 
+**.jenkinsrc.js** file
+```js
+// can also return a promise of required JSON structure
+module.exports = [{
+    "url": "http://127.0.0.1:8080/job/myproject/",
+    "name": "Jenkins Build",
+    "username": "jenkins_user",
+    "password": "jenkins_password_or_token"
+},
+{
+    "url": "http://127.0.0.1:8080/job/myprojectTests/",
+    "name": "Jenkins Acceptance Tests",
+    "username": "jenkins_user",
+    "password": "jenkins_password_or_token"
+}];
+```
 
-If you are having trouble with self-signed certificates and your build status says `SELF_SIGNED_CERT_IN_CHAIN`, you could use a _workaroud_ adding a `strictTls` flag to your `.jenkins` file:
+If you are having trouble with self-signed certificates and your build status says `SELF_SIGNED_CERT_IN_CHAIN`, you could use a _workaroud_ adding a `strictTls` flag to your `.jenkins` file or `.jenkinsrc.js` export:
 
 ```json
     "strictTls": false

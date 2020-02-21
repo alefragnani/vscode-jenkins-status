@@ -7,18 +7,17 @@ import fs = require("fs");
 import path = require("path");
 import * as vscode from "vscode";
 import { WhatsNewManager } from "../vscode-whats-new/src/Manager";
-import { BuildStatus, JenkinsStatus } from "./Jenkins";
 import * as JenkinsIndicator from "./JenkinsIndicator";
+import { Setting } from "./setting";
 import { WhatsNewJenkinsStatusContentProvider } from "./whats-new/JenkinsStatusContentProvider";
 
 export function activate(context: vscode.ExtensionContext) {
-
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
     let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
-    let hasJenkinsInRoot: boolean;    
+
+    let currentSettings: Setting[];
     
-    hasJenkinsInRoot = hasJenkinsInAnyRoot();
-    if (hasJenkinsInRoot) {
+    if (hasJenkinsInAnyRoot()) {
         createJenkinsIndicator(context);
         updateStatus();
     }
@@ -31,55 +30,58 @@ export function activate(context: vscode.ExtensionContext) {
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);
 
-    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 1)) {
-            updateStatus(true)
-        }
-    }));
     context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(e => {
-        hasJenkinsInRoot = hasJenkinsInAnyRoot();
-        if (hasJenkinsInRoot) {
+        if (hasJenkinsInAnyRoot()) {
             createJenkinsIndicator(context);
         }
         updateStatus()}
     ));
 
-    const dispOpenInJenkins = vscode.commands.registerCommand("jenkins.openInJenkins", () => {
-        if (!hasJenkinsInRoot) {
+    const dispOpenInJenkins = vscode.commands.registerCommand("jenkins.openInJenkins", async () => {
+        if (!hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
             return;
         } 
 
-        if (!jenkinsIndicator.getCurrentBasePath() || !fs.existsSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins"))) {
-            vscode.window.showWarningMessage("The current project is not enabled for Jenkins.");
-            return;            
+        const settings = currentSettings;
+        if (!settings.length) {
+            vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
+            return;
         }
-        
-        const settings = JSON.parse(fs.readFileSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins")).toString());
-        vscode.env.openExternal(vscode.Uri.parse(settings.url));
+
+        if (settings.length > 1) {
+            vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
+                placeHolder : "Select the Jenkins job to open in browser"
+            }).then((settingName: string) => {
+                vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkins");
+            });
+        } else {
+            vscode.commands.executeCommand("Jenkins." + settings[0].name + ".openInJenkins");
+        }        
     });
     context.subscriptions.push(dispOpenInJenkins);
 
-    const dispOpenInJenkinsConsoleOutput = vscode.commands.registerCommand("jenkins.openInJenkinsConsoleOutput", () => {
-        if (!hasJenkinsInRoot) {
+    const dispOpenInJenkinsConsoleOutput = vscode.commands.registerCommand("jenkins.openInJenkinsConsoleOutput", async () => {
+        if (!hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
             return;
         } 
 
-        if (!jenkinsIndicator.getCurrentBasePath() || !fs.existsSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins"))) {
-            vscode.window.showWarningMessage("The current project is not enabled for Jenkins.");
-            return;            
+        const settings = await getCurrentSettings();
+        if (!settings.length) {
+            vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
+            return;
         }
 
-        const settings = JSON.parse(fs.readFileSync(path.join(jenkinsIndicator.getCurrentBasePath(), ".jenkins")).toString());
-        
-        let status: JenkinsStatus;
-        status = jenkinsIndicator.getCurrentStatus();   
-        if (status.status !== BuildStatus.Disabled) {
-            vscode.env.openExternal(vscode.Uri.parse(settings.url + status.buildNr.toString() + "/console"));
+        if (settings.length > 1) {
+            vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
+                placeHolder : "Select the Jenkins job to open in browser"
+            }).then((settingName: string) => {
+                vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkinsConsoleOutput");
+            });
         } else {
-            vscode.window.showWarningMessage("The Jenkins job has some connnection issues. Please check the status bar for more information.");
-        }         
+            vscode.commands.executeCommand("Jenkins." + settings[0].name + ".openInJenkinsConsoleOutput");
+        }   
     });
     context.subscriptions.push(dispOpenInJenkinsConsoleOutput);
     
@@ -94,22 +96,21 @@ export function activate(context: vscode.ExtensionContext) {
         aContext.subscriptions.push(jenkinsIndicator);
     }
 
-    function updateStatus(showMessage?: boolean) {
-        if (!hasJenkinsInRoot && showMessage) {
+    async function updateStatus(showMessage?: boolean) {
+        if (showMessage && !hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
             return;
-        } 
-        
-        if (showMessage ||
-          (!jenkinsIndicator.getCurrentBasePath() || (jenkinsIndicator.getCurrentBasePath() !== getCurrentBasePath()))) {
-            jenkinsIndicator.updateJenkinsStatus(getCurrentBasePath());
+        }
+
+        if (jenkinsIndicator) { 
+            currentSettings = jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
         }
     };
     
     // let interval;
     const polling: number = vscode.workspace.getConfiguration("jenkins").get("polling", 0);
     if (polling > 0) {
-        setInterval(updateStatus, polling * 60000);
+        setInterval(() => updateStatus(), polling * 60000);
     }
 
     function hasJenkinsInAnyRoot(): boolean {
@@ -123,7 +124,7 @@ export function activate(context: vscode.ExtensionContext) {
         // for (let index = 0; index < vscode.workspace.workspaceFolders.length; index++) {
         for (const element of vscode.workspace.workspaceFolders) {
             // const element: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[index];
-            hasAny = fs.existsSync(path.join(element.uri.fsPath, ".jenkins"));
+            hasAny = !!getConfigPath(element.uri.fsPath);
             if (hasAny) {
                 return hasAny;
             }
@@ -132,20 +133,83 @@ export function activate(context: vscode.ExtensionContext) {
         return hasAny;
     }
 
-    function getCurrentBasePath(): string {
+    async function getCurrentSettings(): Promise<Setting[]> {
         if (!vscode.workspace.workspaceFolders) {
-            return undefined;
+            return [];
         }
 
-        if (!vscode.window.activeTextEditor) {
-            if (vscode.workspace.workspaceFolders.length === 1) {
-                return vscode.workspace.workspaceFolders[0].uri.fsPath;
-            } else {
-                return undefined;
-            }
+        let settings: Setting[] = [];
+        try {
+            for (const element of vscode.workspace.workspaceFolders) {
+                const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);            
+                if (!!jenkinsSettingsPath) {
+                    let jenkinsSettings = await readSettings(jenkinsSettingsPath);
+                    jenkinsSettings = Array.isArray(jenkinsSettings) ? jenkinsSettings : [jenkinsSettings];
+                    settings = settings.concat(jenkinsSettings);
+                }
+            }       
+        } catch (error) {
+            vscode.window.showErrorMessage("Error while retrieving Jenkins settings");
         }
-
-        return vscode.workspace.getWorkspaceFolder(vscode.window.activeTextEditor.document.uri).uri.fsPath;
+        return settings;
     }
 
+    async function readSettings(jenkinsSettingsPath: string) {
+        if (jenkinsSettingsPath.endsWith(".jenkinsrc.js")) {
+            delete require.cache[require.resolve(jenkinsSettingsPath)];
+            return await require(jenkinsSettingsPath);
+        } else {
+            const content = fs.readFileSync(jenkinsSettingsPath, "utf-8");
+            return JSON.parse(content);
+        }
+    }
+
+    function registerCommand(cmd: string, callback: () => void) {
+        const command = vscode.commands.registerCommand(cmd, callback);
+        context.subscriptions.push(new Command(cmd, command));
+    }
+
+    function deRegisterCommand(cmd: string) {
+        let foundIndex = -1;
+        for (let index = 0; index < context.subscriptions.length; index++) {
+            const subscription = context.subscriptions[index];
+            if (subscription instanceof Command) {
+                if (subscription.cmdId === cmd) {
+                    subscription.dispose();
+                    foundIndex = index;
+                    break;
+                }
+            }            
+        }
+
+        if (foundIndex > -1) {
+            context.subscriptions.splice(foundIndex, 1);
+        }
+        return;
+    }
+
+    function getConfigPath(root: string): string {
+        if (fs.existsSync(path.join(root, ".jenkinsrc.js"))) {
+            return path.join(root, ".jenkinsrc.js");
+        } else if (fs.existsSync(path.join(root, ".jenkins"))) {
+            return path.join(root, ".jenkins");
+        }
+        return "";
+    }
+
+    function createWatcher(folder: vscode.WorkspaceFolder) {
+        const fileSystemWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(folder, "*.{jenkins,jenkins.js}"));
+        fileSystemWatcher.onDidChange(uri => updateStatus(false), context.subscriptions);
+        fileSystemWatcher.onDidCreate(uri => updateStatus(false), context.subscriptions);
+        fileSystemWatcher.onDidDelete(uri => updateStatus(false), context.subscriptions);
+        context.subscriptions.push(fileSystemWatcher);
+    }
+    vscode.workspace.workspaceFolders.forEach(folder => createWatcher(folder));
+}
+
+class Command {
+    constructor(public cmdId: string, private command: vscode.Disposable) {}
+    public dispose(): any {
+        return this.command.dispose();
+    }
 }

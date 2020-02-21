@@ -2,14 +2,14 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "3.1.2",
+    "version": "4.0.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#168bb9",
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.32.0"
+        "vscode": "^1.41.0"
     },
     "categories": [
         "Other"
@@ -21,6 +21,7 @@
     ],
     "activationEvents": [
         "workspaceContains:.jenkins",
+        "workspaceContains:.jenkinsrc.js",
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",
@@ -74,8 +75,7 @@
         "vscode:prepublish": "webpack --mode production",
         "webpack": "webpack --mode development",
         "webpack-dev": "webpack --mode development --watch",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "compile": "tsc -watch -p ./"
     },
     "dependencies": {
         "request": "^2.88.0"
@@ -83,10 +83,11 @@
     "devDependencies": {
         "@types/node": "^6.0.40",
         "typescript": "^3.1.6",
-        "vscode": "^1.1.28",
+        "@types/vscode": "^1.41.0",
         "webpack": "^4.19.1",
         "webpack-cli": "^3.1.0",
         "ts-loader": "^4.4.2",
-        "terser-webpack-plugin": "^1.2.1"
+        "terser-webpack-plugin": "^1.2.1",
+        "tslint": "^5.20.1"
     }
 }

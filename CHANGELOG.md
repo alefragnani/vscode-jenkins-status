@@ -1,3 +1,10 @@
+## [4.0.0] - 2020-02-??
+### Added
+- **Multiple Jobs** and **in-progress** status support (Thanks to @eramitmittal [PR #17](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
+
+### Changed
+- **Status Bar** tooltip
+
 ## [3.1.2] - 2019-05-28
 ### Fixed
 - Security Alert: tar
