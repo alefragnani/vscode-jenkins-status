@@ -108,6 +108,20 @@ If you are having trouble with self-signed certificates and your build status sa
 ```
 > Note: 0 (zero) means _no update_
 
+## Contributors
+
+Special thanks to the people that have contributed to the project:
+
+* Amit Mittal (@eramitmittal) - Multiple Jobs and in-progress status support ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
+* Kimitaka Watanabe (@kimitaka) - Updated `.jenkins` example in README  ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/31))
+* Zhao Xiaojie (@LinuxSuRen) - Status Bar improvements ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/29))
+* Grzegorz Judas (@grzegorzjudas) - HTTPS Support using `NODE_TLS_REJECT_UNAUTHORIZED` environment variable ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/23))
+* Adam Parkin (@pzelnip) - Fix tooltip for failed builds ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/15))
+* Mike Patrick (@mikepatrick) and Mensa Ulysse (@umens) - Support Authentication ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/10))
+* Vojtěch Habarta (@vojtechhabarta) - Support for larger JSON responses ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/7))
+
+Also thanks to everyone who helped opening issues with ideas and bug reports.
+
 # License
 
 [MIT](LICENSE.md) &copy; Alessandro Fragnani
