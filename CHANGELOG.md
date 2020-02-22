@@ -6,6 +6,9 @@
 ### Changed
 - **Status Bar** tooltip
 
+### Fixed
+- Skip authentication when no `username` is provided (Thanks to @leeopop [PR #35](https://github.com/alefragnani/vscode-jenkins-status/pull/35))
+
 ## [3.1.2] - 2019-05-28
 ### Fixed
 - Security Alert: tar

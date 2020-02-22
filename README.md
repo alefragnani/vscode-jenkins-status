@@ -112,6 +112,7 @@ If you are having trouble with self-signed certificates and your build status sa
 
 Special thanks to the people that have contributed to the project:
 
+* Keunhong Lee (@leeopop) - Skip authentication when no `username` is provided ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/35))
 * Amit Mittal (@eramitmittal) - Multiple Jobs and in-progress status support ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
 * Kimitaka Watanabe (@kimitaka) - Updated `.jenkins` example in README  ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/31))
 * Zhao Xiaojie (@LinuxSuRen) - Status Bar improvements ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/29))

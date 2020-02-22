@@ -36,6 +36,10 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
             (Thanks to @mikepatrick and @umens - <a title=\"Open PR #10\" 
             href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/10\">
             PR #10</a>)</b>`});
+        changeLog.push({kind: ChangeLogKind.FIXED, message: `Skip authentication when no 
+            \`username\` is provided (Thanks to @leeopop 
+            - <a title=\"Open PR #35\" href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/35\">
+            PR #35</a>)</b>`});
         changeLog.push({kind: ChangeLogKind.FIXED, message: `Tooltip for failed builds (Thanks to @pzelnip 
             - <a title=\"Open PR #15\" href=\"https://github.com/alefragnani/vscode-jenkins-status/pull/15\">
             PR #15</a>)</b>`});
