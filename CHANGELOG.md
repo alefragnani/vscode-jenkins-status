@@ -1,6 +1,7 @@
 ## [4.0.0] - 2020-02-??
 ### Added
 - **Multiple Jobs** and **in-progress** status support (Thanks to @eramitmittal [PR #17](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
+- Auto-detect changes in `.jenkins` file
 
 ### Changed
 - **Status Bar** tooltip

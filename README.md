@@ -6,11 +6,12 @@
 # What's new in Jenkins Status 4
 
 * Adds **Multi-root** support
-* Adds **HTTPS** support
-* Adds **Authentication** support
 * Adds **Multiple Jobs** support
 * Adds **in-progress** status support
+* **Auto-detect** changes in `.jenkins` file
 * Improved **Status Bar** tooltip
+* Adds **HTTPS** support
+* Adds **Authentication** support
 
 ## Support
 
