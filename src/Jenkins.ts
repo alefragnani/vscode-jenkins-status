@@ -28,7 +28,7 @@ export interface JenkinsStatus {
    */
 export function colorToBuildStatus(color: string): BuildStatus {
   
-    if(color.endsWith('_anime')) return BuildStatus.InProgress;
+    if(color.endsWith('_anime')) { return BuildStatus.InProgress; }
 
     switch (color) {
       case "blue" :
@@ -110,20 +110,20 @@ export class Jenkins {
       let statusCode: number;
       let result: JenkinsStatus;
 
-      let auth_info: any;
+      let authInfo: any;
       if (username) {
-        auth_info = {
+        authInfo = {
           auth: {
             user: username,
             pass: password
           }
         };
       } else {
-        auth_info = {};
+        authInfo = {};
       }
       
       request
-        .get(url + "/api/json", auth_info)
+        .get(url + "/api/json", authInfo)
         .on("response", function(response) {
           statusCode = response.statusCode;
         })

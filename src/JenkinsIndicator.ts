@@ -141,22 +141,12 @@ export class JenkinsIndicator {
             }
         }
     }
-
-    // public getCommandFromSettingName(settingName: string){
-    //     for (const key in this.settingNameToUrl) {
-    //         if (this.settingNameToUrl.hasOwnProperty(settingName)) {
-    //             return statusBarItemsthis.statusBarItems[key] = tmpStatusBarItems[key];
-    //             delete tmpStatusBarItems[key];
-    //         }
-    //     }
-    // }
 }
 
 export class JenkinsIndicatorController {
 
     private jenkinsIndicator: JenkinsIndicator;
     private disposable: vscode.Disposable;
-    // private _isControlled: boolean = false;
 
     constructor(indicator: JenkinsIndicator) {
         const myself = this;
