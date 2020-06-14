@@ -1,4 +1,7 @@
 ## [4.1.0] - 2020-06-14
+## Added
+- Localization support (issue [#30](https://github.com/alefragnani/vscode-jenkins/status/issues/30))
+
 ### Internal
 - Support Extension View Context Menu (issue [#50](https://github.com/alefragnani/vscode-jenkins/status/issues/50))
 - Migrate from TSLint to ESLint (issue [#47](https://github.com/alefragnani/vscode-jenkins/status/issues/47))
