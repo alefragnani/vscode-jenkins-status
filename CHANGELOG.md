@@ -1,3 +1,7 @@
+## [4.1.0] - 2020-06-14
+### Internal
+- Support Extension View Context Menu (issue [#50](https://github.com/alefragnani/vscode-jenkins/status/issues/50))
+
 ## [4.0.0] - 2020-02-??
 ### Added
 - **Multiple Jobs** and **in-progress** status support (Thanks to @eramitmittal [PR #17](https://github.com/alefragnani/vscode-jenkins-status/pull/17))

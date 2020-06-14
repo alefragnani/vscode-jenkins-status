@@ -17,6 +17,16 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
 
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.1.0", releaseDate: "June 2020" } });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Support Extension View Context Menu",
+                id: 50,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.0.0", releaseDate: "February 2020" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
