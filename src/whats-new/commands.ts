@@ -13,4 +13,5 @@ export function registerWhatsNew() {
     const viewer = new WhatsNewManager(Container.context).registerContentProvider("jenkins-status", provider);
     viewer.showPageInActivation();
     Container.context.subscriptions.push(commands.registerCommand("jenkins.whatsNew", () => viewer.showPage()));
+    Container.context.subscriptions.push(commands.registerCommand("jenkins._whatsNewContextMenu", () => viewer.showPage()));
 }

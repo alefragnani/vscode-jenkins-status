@@ -2,7 +2,7 @@
     "name": "jenkins-status",
     "displayName": "Jenkins Status",
     "description": "View your project's Jenkins status inside Visual Studio Code",
-    "version": "4.0.0",
+    "version": "4.1.0",
     "publisher": "alefragnani",
     "galleryBanner": {
         "color": "#168bb9",
@@ -25,7 +25,8 @@
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",
-        "onCommand:jenkins.whatsNew"
+        "onCommand:jenkins.whatsNew",
+        "onCommand:jenkins._whatsNewContextMenu"
     ],
     "main": "./dist/extension",
     "icon": "images/icon.png",
@@ -55,8 +56,27 @@
             {
                 "command": "jenkins.whatsNew",
                 "title": "Jenkins: What's New"
+            },
+            {
+                "command": "jenkins._whatsNewContextMenu",
+                "title": "What's New"
             }
         ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "jenkins._whatsNewContextMenu",
+                    "when": "false"
+                }
+            ],
+            "extension/context": [
+                {
+                    "command": "jenkins._whatsNewContextMenu",
+                    "group": "jenkins",
+                    "when": "extension == alefragnani.jenkins-status && extensionStatus == installed"
+                }
+            ]
+        },
         "configuration": {
             "type": "object",
             "title": "Jenkins Status Configuration",
