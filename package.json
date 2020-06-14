@@ -9,7 +9,7 @@
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.41.0"
+        "vscode": "^1.45.0"
     },
     "categories": [
         "Other"
@@ -81,9 +81,9 @@
         "request": "^2.88.0"
     },
     "devDependencies": {
-        "@types/node": "^6.0.40",
-        "typescript": "^3.1.6",
-        "@types/vscode": "^1.41.0",
+        "@types/node": "^10.14.17",
+        "@types/vscode": "^1.45.0",
+        "typescript": "^3.5.1",
         "webpack": "^4.19.1",
         "webpack-cli": "^3.1.0",
         "ts-loader": "^4.4.2",
