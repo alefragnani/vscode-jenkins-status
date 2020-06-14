@@ -132,24 +132,25 @@ export class Jenkins {
         })
         .on("end", function() {
           switch (statusCode) {
-            case 200:
-                const myArr = JSON.parse(data);
-                result = {
-                  jobName: myArr.displayName,
-                  url: myArr.url,
-                  status: colorToBuildStatus(myArr.color),
-                  statusName: colorToBuildStatusName(myArr.color),
-                  buildNr: myArr.lastBuild ? myArr.lastBuild.number : 0,
-                  connectionStatus: ConnectionStatus.Connected,
-                  connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected),
-                  code: undefined
-                }
-
-                if(result.status === BuildStatus.InProgress) {
-                  result.statusName = result.statusName + " (in progress)";
-                }
-                resolve(result);
-                break;
+            case 200: {
+              const myArr = JSON.parse(data);
+              result = {
+                jobName: myArr.displayName,
+                url: myArr.url,
+                status: colorToBuildStatus(myArr.color),
+                statusName: colorToBuildStatusName(myArr.color),
+                buildNr: myArr.lastBuild ? myArr.lastBuild.number : 0,
+                connectionStatus: ConnectionStatus.Connected,
+                connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected),
+                code: undefined
+              }
+              
+              if(result.status === BuildStatus.InProgress) {
+                result.statusName = result.statusName + " (in progress)";
+              }
+              resolve(result);
+              break;
+            }
               
             case 401:
             case 403:

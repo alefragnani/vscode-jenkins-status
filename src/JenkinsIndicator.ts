@@ -49,8 +49,7 @@ export class JenkinsIndicator {
                 });
             }
 
-            let jjj: Jenkins.Jenkins;
-            jjj = new Jenkins.Jenkins();
+            const jjj: Jenkins.Jenkins = new Jenkins.Jenkins();
 
             const url = setting.url;
             const user = setting.username ? setting.username : "";
@@ -116,6 +115,7 @@ export class JenkinsIndicator {
         const tmpStatusBarItems = this.statusBarItems;
         this.statusBarItems = {};
         for (const key in this.settingNameToUrl) {
+            // eslint-disable-next-line no-prototype-builtins
             if (this.settingNameToUrl.hasOwnProperty(key)) {
                 this.statusBarItems[key] = tmpStatusBarItems[key];
                 delete tmpStatusBarItems[key];
@@ -124,6 +124,7 @@ export class JenkinsIndicator {
         
         this.hideReadOnly(tmpStatusBarItems);
         for (const key in tmpStatusBarItems) {
+            // eslint-disable-next-line no-prototype-builtins
             if (tmpStatusBarItems.hasOwnProperty(key)) {
                 deRegisterCommand("Jenkins." + key + ".openInJenkins");
                 deRegisterCommand("Jenkins." + key + ".openInJenkinsConsoleOutput");                
@@ -135,6 +136,7 @@ export class JenkinsIndicator {
 
     public hideReadOnly(items) {
         for (const key in items) {
+            // eslint-disable-next-line no-prototype-builtins
             if (items.hasOwnProperty(key)) {
                 const statusBarItem = items[key];
                 statusBarItem.dispose();                
@@ -149,7 +151,6 @@ export class JenkinsIndicatorController {
     private disposable: vscode.Disposable;
 
     constructor(indicator: JenkinsIndicator) {
-        const myself = this;
         this.jenkinsIndicator = indicator;
     }
 
