@@ -105,7 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (jenkinsIndicator) { 
             currentSettings = jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
         }
-    };
+    }
     
     // let interval;
     const polling: number = vscode.workspace.getConfiguration("jenkins").get("polling", 0);
@@ -119,7 +119,7 @@ export function activate(context: vscode.ExtensionContext) {
             return false;
         }
 
-        let hasAny: boolean = false;
+        let hasAny = false;
 
         // for (let index = 0; index < vscode.workspace.workspaceFolders.length; index++) {
         for (const element of vscode.workspace.workspaceFolders) {
@@ -142,7 +142,7 @@ export function activate(context: vscode.ExtensionContext) {
         try {
             for (const element of vscode.workspace.workspaceFolders) {
                 const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);            
-                if (!!jenkinsSettingsPath) {
+                if (jenkinsSettingsPath !== "") {
                     let jenkinsSettings = await readSettings(jenkinsSettingsPath);
                     jenkinsSettings = Array.isArray(jenkinsSettings) ? jenkinsSettings : [jenkinsSettings];
                     settings = settings.concat(jenkinsSettings);

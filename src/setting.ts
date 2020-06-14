@@ -4,4 +4,4 @@ export interface Setting {
   password?: string;
   name?: string;
   strictTls?: number;
-};
+}
