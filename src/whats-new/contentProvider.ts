@@ -26,6 +26,14 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
                 kind: IssueKind.Issue
             }
         });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Migrate from TSLint to ESLint",
+                id: 47,
+                kind: IssueKind.Issue
+            }
+        });
 
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.0.0", releaseDate: "February 2020" } });
         changeLog.push({
