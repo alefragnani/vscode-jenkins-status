@@ -1,0 +1,9 @@
+{
+    "jenkins-status.commands.updateStatus.title": "Jenkins: Update Status",
+    "jenkins-status.commands.openInJenkins.title": "Jenkins: Open in Jenkins",
+    "jenkins-status.commands.openInJenkinsConsoleOutput.title": "Jenkins: Open in Jenkins (Console Output)",
+    "jenkins-status.commands.whatsNew.title": "Jenkins: What's New",
+    "jenkins-status.commands._whatsNewContextMenu.title": "What's New",
+    "jenkins-status.configuration.title": "Jenkins Status",
+    "jenkins-status.configuration.jenkins.polling.description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
+}

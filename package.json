@@ -43,23 +43,23 @@
         "commands": [
             {
                 "command": "jenkins.updateStatus",
-                "title": "Jenkins: Update Status"
+                "title": "%jenkins-status.commands.updateStatus.title%"
             },
             {
                 "command": "jenkins.openInJenkins",
-                "title": "Jenkins: Open in Jenkins"
+                "title": "%jenkins-status.commands.openInJenkins.title%"
             },
             {
                 "command": "jenkins.openInJenkinsConsoleOutput",
-                "title": "Jenkins: Open in Jenkins (Console Output)"
+                "title": "%jenkins-status.commands.openInJenkinsConsoleOutput.title%"
             },
             {
                 "command": "jenkins.whatsNew",
-                "title": "Jenkins: What's New"
+                "title": "%jenkins-status.commands.whatsNew.title%"
             },
             {
                 "command": "jenkins._whatsNewContextMenu",
-                "title": "What's New"
+                "title": "%jenkins-status.commands._whatsNewContextMenu.title%"
             }
         ],
         "menus": {
@@ -79,12 +79,12 @@
         },
         "configuration": {
             "type": "object",
-            "title": "Jenkins Status Configuration",
+            "title": "%jenkins-status.configuration.title%",
             "properties": {
                 "jenkins.polling": {
                     "type": "integer",
                     "default": 0,
-                    "description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
+                    "description": "%jenkins-status.configuration.jenkins.polling.description%"
                 }
             }
         }
