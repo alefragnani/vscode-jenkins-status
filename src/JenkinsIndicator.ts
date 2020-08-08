@@ -6,6 +6,7 @@
 import * as vscode from "vscode";
 import * as Jenkins from "./Jenkins";
 import { Setting } from "./setting";
+import { codicons } from "vscode-ext-codicons";
 
 export class JenkinsIndicator {
 
@@ -65,7 +66,7 @@ export class JenkinsIndicator {
             // invalid URL
             if (!url) {
                 this.statusBarItems[setting.name].tooltip = "No URL Defined";
-                this.statusBarItems[setting.name].text = "Jenkins $(x)";
+                this.statusBarItems[setting.name].text = "Jenkins " + codicons.x;
                 continue;
             }     
             
@@ -91,22 +92,22 @@ export class JenkinsIndicator {
 
                     switch (status.status) {
                         case Jenkins.BuildStatus.InProgress:
-                            icon = " $(pulse)";
+                            icon = codicons.pulse;
                             break;
 
                         case Jenkins.BuildStatus.Success:
-                            icon = "$(check) ";
+                            icon = codicons.check;
                             break;
 
                         case Jenkins.BuildStatus.Failed:
-                            icon = "$(alert) ";
+                            icon = codicons.alert;
                             break;
                     
                         default:
-                            icon = "$(stop) ";
+                            icon = codicons.stop;
                     }
                         
-                    this.statusBarItems[setting.name].text = icon + setting.name;
+                    this.statusBarItems[setting.name].text = icon + " " + setting.name;
                     this.statusBarItems[setting.name].tooltip = tooltip;
                     this.statusBarItems[setting.name].show();
                 });

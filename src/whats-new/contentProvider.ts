@@ -20,6 +20,22 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
 
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.2.0", releaseDate: "August 2020" } });
         changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Use <b>vscode-ext-codicons</b> package",
+                id: 52,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Shrink installation size/time",
+                id: 51,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
             kind: ChangeLogKind.FIXED,
             detail: {
                 message: "Security Alert: elliptic",
