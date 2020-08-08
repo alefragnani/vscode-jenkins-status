@@ -1,5 +1,9 @@
-## [4.2.0] - 2020-08-??
-## Added
+## [4.2.0] - 2020-08-08
+### Internal
+- Use `vscode-ext-codicons` package (issue [#52](https://github.com/alefragnani/vscode-jenkins-status/issues/52))
+- Shrink installation size/time (issue [#51](https://github.com/alefragnani/vscode-jenkins-status/issues/51))
+
+### Fixed
 - Security Alert: elliptic (dependabot [PR #54](https://github.com/alefragnani/vscode-jenkins-status/pull/54))
 - Security Alert: lodash (dependabot [PR #53](https://github.com/alefragnani/vscode-jenkins-status/pull/53))
 
