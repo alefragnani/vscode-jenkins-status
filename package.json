@@ -104,7 +104,8 @@
         "lint": "eslint -c package.json --ext .ts src vscode-whats-new"
     },
     "dependencies": {
-        "request": "^2.88.0"
+        "request": "^2.88.0",
+        "vscode-ext-codicons": "^1.0.1"
     },
     "devDependencies": {
         "@types/node": "^10.14.17",
