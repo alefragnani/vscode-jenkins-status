@@ -1,10 +1,15 @@
+## [4.2.0] - 2020-08-??
+## Added
+- Security Alert: elliptic (dependabot [PR #54](https://github.com/alefragnani/vscode-jenkins-status/pull/54))
+- Security Alert: lodash (dependabot [PR #53](https://github.com/alefragnani/vscode-jenkins-status/pull/53))
+
 ## [4.1.0] - 2020-06-14
 ## Added
-- Localization support (issue [#30](https://github.com/alefragnani/vscode-jenkins/status/issues/30))
+- Localization support (issue [#30](https://github.com/alefragnani/vscode-jenkins-status/issues/30))
 
 ### Internal
-- Support Extension View Context Menu (issue [#50](https://github.com/alefragnani/vscode-jenkins/status/issues/50))
-- Migrate from TSLint to ESLint (issue [#47](https://github.com/alefragnani/vscode-jenkins/status/issues/47))
+- Support Extension View Context Menu (issue [#50](https://github.com/alefragnani/vscode-jenkins-status/issues/50))
+- Migrate from TSLint to ESLint (issue [#47](https://github.com/alefragnani/vscode-jenkins-status/issues/47))
 
 ## [4.0.0] - 2020-02-??
 ### Added
@@ -52,7 +57,7 @@
 
 ## [0.5.0 - 2.0.0] - 2017-10-28
 ### Added
-- Multi-root support (issue [#18](https://github.com/alefragnani/vscode-jenkins/status/issues/18))
+- Multi-root support (issue [#18](https://github.com/alefragnani/vscode-jenkins-status/issues/18))
 
 ## [0.4.1 - 1.3.1] - 2017-10-27
 ### Fixed
