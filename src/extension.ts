@@ -12,21 +12,21 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { Container } from "./container";
 
 export function activate(context: vscode.ExtensionContext) {
-    
+
     Container.context = context;
 
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
-    let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
+    let jenkinsController: JenkinsIndicator.JenkinsIndicatorController;
 
     let currentSettings: Setting[];
-    
+
     if (hasJenkinsInAnyRoot()) {
         createJenkinsIndicator(context);
         updateStatus();
     }
 
     registerWhatsNew();
-    
+
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);
 
@@ -34,14 +34,15 @@ export function activate(context: vscode.ExtensionContext) {
         if (hasJenkinsInAnyRoot()) {
             createJenkinsIndicator(context);
         }
-        updateStatus()}
+        updateStatus()
+    }
     ));
 
     const dispOpenInJenkins = vscode.commands.registerCommand("jenkins.openInJenkins", async () => {
         if (!hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
             return;
-        } 
+        }
 
         const settings = currentSettings;
         if (!settings.length) {
@@ -51,13 +52,13 @@ export function activate(context: vscode.ExtensionContext) {
 
         if (settings.length > 1) {
             vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
-                placeHolder : "Select the Jenkins job to open in browser"
+                placeHolder: "Select the Jenkins job to open in browser"
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkins");
             });
         } else {
             vscode.commands.executeCommand("Jenkins." + settings[0].name + ".openInJenkins");
-        }        
+        }
     });
     context.subscriptions.push(dispOpenInJenkins);
 
@@ -65,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (!hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
             return;
-        } 
+        }
 
         const settings = await getCurrentSettings();
         if (!settings.length) {
@@ -75,21 +76,21 @@ export function activate(context: vscode.ExtensionContext) {
 
         if (settings.length > 1) {
             vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
-                placeHolder : "Select the Jenkins job to open in browser"
+                placeHolder: "Select the Jenkins job to open in browser"
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkinsConsoleOutput");
             });
         } else {
             vscode.commands.executeCommand("Jenkins." + settings[0].name + ".openInJenkinsConsoleOutput");
-        }   
+        }
     });
     context.subscriptions.push(dispOpenInJenkinsConsoleOutput);
-    
+
     function createJenkinsIndicator(aContext: vscode.ExtensionContext) {
         if (jenkinsIndicator) {
             return;
         }
-        
+
         jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
         jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
         aContext.subscriptions.push(jenkinsController);
@@ -102,11 +103,11 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        if (jenkinsIndicator) { 
-            currentSettings = jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
+        if (jenkinsIndicator) {
+            currentSettings = await jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
         }
     }
-    
+
     // let interval;
     const polling: number = vscode.workspace.getConfiguration("jenkins").get("polling", 0);
     if (polling > 0) {
@@ -139,15 +140,16 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         let settings: Setting[] = [];
+
         try {
             for (const element of vscode.workspace.workspaceFolders) {
-                const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);            
+                const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);
                 if (jenkinsSettingsPath !== "") {
                     let jenkinsSettings = await readSettings(jenkinsSettingsPath);
                     jenkinsSettings = Array.isArray(jenkinsSettings) ? jenkinsSettings : [jenkinsSettings];
                     settings = settings.concat(jenkinsSettings);
                 }
-            }       
+            }
         } catch (error) {
             vscode.window.showErrorMessage("Error while retrieving Jenkins settings");
         }
@@ -179,7 +181,7 @@ export function activate(context: vscode.ExtensionContext) {
                     foundIndex = index;
                     break;
                 }
-            }            
+            }
         }
 
         if (foundIndex > -1) {
@@ -208,7 +210,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 class Command {
-    constructor(public cmdId: string, private command: vscode.Disposable) {}
+    constructor(public cmdId: string, private command: vscode.Disposable) { }
     public dispose() {
         return this.command.dispose();
     }
