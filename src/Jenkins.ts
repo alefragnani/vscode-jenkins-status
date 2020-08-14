@@ -3,6 +3,7 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 import request = require("request");
+import * as vscode from "vscode";
 
 export enum BuildStatus {
   Success, Failed, Disabled, InProgress
@@ -116,12 +117,34 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
 }
 
 export class Jenkins {
+  private gitApi;
+  private gitRepo;
+
+  private getCurrentBranch(): string {
+    try {
+      if (!this.gitApi) {
+        const gitExtension = vscode.extensions.getExtension('vscode.git').exports;
+        this.gitApi = gitExtension.getAPI(1);
+      }
+
+      this.gitRepo = this.gitApi.repositories[0];
+      return encodeURIComponent(this.gitRepo.state.HEAD.name)
+    } catch (error) {
+      console.error(error)
+      return "unable to get branch"
+    }
+  }
 
   public async getStatus(url: string, username: string, password: string): Promise<JenkinsStatus> {
     let result: JenkinsStatus;
     try {
       // Get data from URL provided in settings
-      const data = await this.apiRequest(url, username, password);
+      let data = await this.apiRequest(url, username, password);
+
+      if (data._class === "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject") {
+        const branch = this.getCurrentBranch()
+        data = await this.apiRequest(vscode.Uri.joinPath(vscode.Uri.parse(url), "/job", branch).toString(), username, password);
+      }
 
       result = {
         jobName: data.displayName,

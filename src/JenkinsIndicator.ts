@@ -103,6 +103,7 @@ export class JenkinsIndicator {
                     icon = codicons.stop;
             }
 
+            this.settingNameToUrl[setting.name] = status.url // Update URL
             this.statusBarItems[setting.name].text = icon + " " + setting.name;
             this.statusBarItems[setting.name].tooltip = tooltip;
             this.statusBarItems[setting.name].show();
