@@ -142,6 +142,16 @@ export function activate(context: vscode.ExtensionContext) {
         let settings: Setting[] = [];
 
         try {
+            // Get settings from vscode settings
+            if (vscode.workspace.getConfiguration("jenkins").get("url")) {
+                settings = settings.concat([{
+                    url: vscode.workspace.getConfiguration("jenkins").get("url"),
+                    name: vscode.workspace.getConfiguration("jenkins").get("name"),
+                    username: vscode.workspace.getConfiguration("jenkins").get("username"),
+                    password: vscode.workspace.getConfiguration("jenkins").get("password")
+                }])
+            }
+
             for (const element of vscode.workspace.workspaceFolders) {
                 const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);
                 if (jenkinsSettingsPath !== "") {
@@ -153,6 +163,7 @@ export function activate(context: vscode.ExtensionContext) {
         } catch (error) {
             vscode.window.showErrorMessage("Error while retrieving Jenkins settings");
         }
+
         return settings;
     }
 
