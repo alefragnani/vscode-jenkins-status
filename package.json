@@ -22,6 +22,7 @@
     "activationEvents": [
         "workspaceContains:.jenkins",
         "workspaceContains:.jenkinsrc.js",
+        "workspaceContains:Jenkinsfile",
         "onCommand:jenkins.updateStatus",
         "onCommand:jenkins.openInJenkins",
         "onCommand:jenkins.openInJenkinsConsoleOutput",

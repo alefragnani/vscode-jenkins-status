@@ -17,7 +17,7 @@ export class JenkinsIndicator {
         this.hideReadOnly(this.statusBarItems);
     }
 
-    public async updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void) => void, deRegisterCommand: (cmd: string) => void): Promise<Setting[]> {
+    public async updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void) => void, deRegisterCommand: (cmd: string) => void, projectBranch: string): Promise<Setting[]> {
         let noNameCount = -1;
         this.settingNameToUrl = {};
 
@@ -48,7 +48,7 @@ export class JenkinsIndicator {
                 });
             }
 
-            const jjj: Jenkins.Jenkins = new Jenkins.Jenkins();
+            const jjj: Jenkins.Jenkins = new Jenkins.Jenkins(projectBranch);
 
             const url = setting.url;
             const user = setting.username ? setting.username : "";

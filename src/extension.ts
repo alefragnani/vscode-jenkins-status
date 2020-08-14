@@ -12,13 +12,39 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { Container } from "./container";
 
 export function activate(context: vscode.ExtensionContext) {
-
     Container.context = context;
 
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
     let jenkinsController: JenkinsIndicator.JenkinsIndicatorController;
 
     let currentSettings: Setting[];
+
+    // Set GIT hook to get branch when jenkins URL is a Multi branch project
+    let gitBranch = ""
+    const gitExtension = vscode.extensions.getExtension('vscode.git').exports;
+    const gitApi = gitExtension.getAPI(1);
+    const setGitBranch = (repo) => {
+        if (!repo) return
+
+        repo.state.onDidChange(() => {
+            const branchName = repo.state.HEAD.name
+            if (gitBranch === branchName) return;
+
+            gitBranch = branchName
+            updateStatus()
+        })
+
+        gitBranch = repo.state.HEAD.name
+    }
+
+    // Set branch with git api, if not initialized setup the open hook
+    if (gitApi.state !== "initialized") {
+        gitApi.onDidOpenRepository((repo) => {
+            setGitBranch(repo)
+        })
+    } else {
+        setGitBranch(gitApi.repositories[0])
+    }
 
     if (hasJenkinsInAnyRoot()) {
         createJenkinsIndicator(context);
@@ -104,7 +130,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         if (jenkinsIndicator) {
-            currentSettings = await jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand);
+            currentSettings = await jenkinsIndicator.updateJenkinsStatus(await getCurrentSettings(), registerCommand, deRegisterCommand, gitBranch);
         }
     }
 
@@ -115,14 +141,10 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     function hasJenkinsInAnyRoot(): boolean {
-
-        if (!vscode.workspace.workspaceFolders) {
-            return false;
-        }
+        if (vscode.workspace.getConfiguration("jenkins").get("url")) return true;
+        if (!vscode.workspace.workspaceFolders) return false;
 
         let hasAny = false;
-
-        // for (let index = 0; index < vscode.workspace.workspaceFolders.length; index++) {
         for (const element of vscode.workspace.workspaceFolders) {
             // const element: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[index];
             hasAny = !!getConfigPath(element.uri.fsPath);

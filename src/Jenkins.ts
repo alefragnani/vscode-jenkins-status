@@ -116,23 +116,13 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
   }
 }
 
+
+
 export class Jenkins {
-  private gitApi;
-  private gitRepo;
+  private projectBranch: string;
 
-  private getCurrentBranch(): string {
-    try {
-      if (!this.gitApi) {
-        const gitExtension = vscode.extensions.getExtension('vscode.git').exports;
-        this.gitApi = gitExtension.getAPI(1);
-      }
-
-      this.gitRepo = this.gitApi.repositories[0];
-      return encodeURIComponent(this.gitRepo.state.HEAD.name)
-    } catch (error) {
-      console.error(error)
-      return "unable to get branch"
-    }
+  constructor(projectBranch?: string) {
+    this.projectBranch = encodeURIComponent(projectBranch);
   }
 
   public async getStatus(url: string, username: string, password: string): Promise<JenkinsStatus> {
@@ -142,8 +132,7 @@ export class Jenkins {
       let data = await this.apiRequest(url, username, password);
 
       if (data._class === "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject") {
-        const branch = this.getCurrentBranch()
-        data = await this.apiRequest(vscode.Uri.joinPath(vscode.Uri.parse(url), "/job", branch).toString(), username, password);
+        data = await this.apiRequest(vscode.Uri.joinPath(vscode.Uri.parse(url), "/job", this.projectBranch).toString(), username, password);
       }
 
       result = {
