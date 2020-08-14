@@ -81,26 +81,6 @@
             "type": "object",
             "title": "%jenkins-status.configuration.title%",
             "properties": {
-                "jenkins.url": {
-                    "type": "string",
-                    "default": "",
-                    "description": "%jenkins-status.configuration.jenkins.url.description%"
-                },
-                "jenkins.name": {
-                    "type": "string",
-                    "default": "",
-                    "description": "%jenkins-status.configuration.jenkins.name.description%"
-                },
-                "jenkins.username": {
-                    "type": "string",
-                    "default": "",
-                    "description": "%jenkins-status.configuration.jenkins.username.description%"
-                },
-                "jenkins.password": {
-                    "type": "string",
-                    "default": "",
-                    "description": "%jenkins-status.configuration.jenkins.password.description%"
-                },
                 "jenkins.polling": {
                     "type": "integer",
                     "default": 0,
