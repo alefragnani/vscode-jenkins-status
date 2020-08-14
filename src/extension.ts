@@ -141,7 +141,6 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     function hasJenkinsInAnyRoot(): boolean {
-        if (vscode.workspace.getConfiguration("jenkins").get("url")) return true;
         if (!vscode.workspace.workspaceFolders) return false;
 
         let hasAny = false;
@@ -164,16 +163,6 @@ export function activate(context: vscode.ExtensionContext) {
         let settings: Setting[] = [];
 
         try {
-            // Get settings from vscode settings
-            if (vscode.workspace.getConfiguration("jenkins").get("url")) {
-                settings = settings.concat([{
-                    url: vscode.workspace.getConfiguration("jenkins").get("url"),
-                    name: vscode.workspace.getConfiguration("jenkins").get("name"),
-                    username: vscode.workspace.getConfiguration("jenkins").get("username"),
-                    password: vscode.workspace.getConfiguration("jenkins").get("password")
-                }])
-            }
-
             for (const element of vscode.workspace.workspaceFolders) {
                 const jenkinsSettingsPath = getConfigPath(element.uri.fsPath);
                 if (jenkinsSettingsPath !== "") {

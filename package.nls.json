@@ -5,9 +5,5 @@
     "jenkins-status.commands.whatsNew.title": "Jenkins: What's New",
     "jenkins-status.commands._whatsNewContextMenu.title": "What's New",
     "jenkins-status.configuration.title": "Jenkins Status",
-    "jenkins-status.configuration.jenkins.url.description": "Defines URL to Jenkins job or multibranch project",
-    "jenkins-status.configuration.jenkins.name.description": "Defines the config name",
-    "jenkins-status.configuration.jenkins.username.description": "Jenkins username",
-    "jenkins-status.configuration.jenkins.password.description": "Jenkins password or API key",
-    "jenkins-status.configuration.jenkins.polling.description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'",
+    "jenkins-status.configuration.jenkins.polling.description": "Defines a polling (in minutes) for automatic status update. 0 (zero) means 'no update'"
 }
