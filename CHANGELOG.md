@@ -1,3 +1,7 @@
+## [4.2.1] - 2020-09-05
+### Fixed
+- `Open in Jenkins (Console Output)` command with unnamed job (issue [#56](https://github.com/alefragnani/vscode-jenkins-status/issues/56))
+
 ## [4.2.0] - 2020-08-08
 ### Internal
 - Use `vscode-ext-codicons` package (issue [#52](https://github.com/alefragnani/vscode-jenkins-status/issues/52))

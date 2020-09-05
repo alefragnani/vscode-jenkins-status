@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         } 
 
-        const settings = await getCurrentSettings();
+        const settings = currentSettings;
         if (!settings.length) {
             vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
             return;
