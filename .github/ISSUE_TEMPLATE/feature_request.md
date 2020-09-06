@@ -9,5 +9,4 @@ assignees: ''
 
 <!-- Please search existing issues to avoid creating duplicates. -->
 
-**Describe your idea**
-A clear and concise description of what you would like to be available.
+<!-- Describe the feature you'd like. -->
