@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<!-- Please take some time to look at the README. It has a lot of information and your question could be already answered there. -->
+<!-- Please take some time to read the README. It has a lot of information and your question could be already answered there. -->
 
 **Describe what you would like to know**
 If you didn't find your answer on README, describe you question here.

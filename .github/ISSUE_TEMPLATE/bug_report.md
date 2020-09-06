@@ -1,29 +1,29 @@
 ---
 name: Bug report
-about: Create a report to help me improve
+about: Create a report to help the extension improve
 title: "[BUG] - "
 labels: bug
 assignees: ''
 
 ---
 
+<!-- Please search existing issues to avoid creating duplicates. -->
+
 **Describe the bug**
-A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Open a folder/workspace in VS Code
-2. Run the command or
-3. Check the status bar
-4. See error
+A clear and concise description of what is happening.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Steps to reproduce**
+
+1. 
+2. 
 
 **Screenshots**
+
 If applicable, add screenshots to help explain your problem.
 
+<!-- Use Help > Report Issue to prefill some of these. -->
 **Environment/version**
- - OS: 
- - VS Code: 
- - Extension:
+- Extension version:
+- OS version: 
+- VSCode version: 
