@@ -9,21 +9,14 @@ assignees: ''
 
 <!-- Please search existing issues to avoid creating duplicates. -->
 
-**Describe the bug**
+<!-- Use Help > Report Issue to prefill some of these. -->
+**Environment/version**
 
-A clear and concise description of what is happening.
+- Extension version:
+- OS version: 
+- VSCode version: 
 
 **Steps to reproduce**
 
 1. 
 2. 
-
-**Screenshots**
-
-If applicable, add screenshots to help explain your problem.
-
-<!-- Use Help > Report Issue to prefill some of these. -->
-**Environment/version**
-- Extension version:
-- OS version: 
-- VSCode version: 
