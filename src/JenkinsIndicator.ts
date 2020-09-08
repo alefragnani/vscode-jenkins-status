@@ -10,14 +10,14 @@ import { codicons } from "vscode-ext-codicons";
 
 export class JenkinsIndicator {
 
-    private statusBarItems: {[settingName: string]: vscode.StatusBarItem} = {};
-    private settingNameToUrl: {[settingName: string]: string} = {};
+    private statusBarItems: { [settingName: string]: vscode.StatusBarItem } = {};
+    private settingNameToUrl: { [settingName: string]: string } = {};
 
     public dispose() {
         this.hideReadOnly(this.statusBarItems);
     }
 
-    public updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void ) => void, deRegisterCommand: (cmd: string) => void): Setting[] {        
+    public async updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void) => void, deRegisterCommand: (cmd: string) => void, projectBranch: string): Promise<Setting[]> {
         let noNameCount = -1;
         this.settingNameToUrl = {};
 
@@ -38,19 +38,17 @@ export class JenkinsIndicator {
                 registerCommand("Jenkins." + setting.name + ".openInJenkins", () => {
                     vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name]));
                 });
-                registerCommand("Jenkins." + setting.name + ".openInJenkinsConsoleOutput", () => {
-                    jjj.getStatus(url, user, pw)
-                    .then((status) => {
-                        if (status.connectionStatus === Jenkins.ConnectionStatus.Connected) {
-                            vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name] + status.buildNr.toString() + "/console"));
-                        } else {
-                            vscode.window.showWarningMessage("The Jenkins job has some connection issues. Please check the status bar for more information.");     
-                        }   
-                    });
+                registerCommand("Jenkins." + setting.name + ".openInJenkinsConsoleOutput", async () => {
+                    const status = await jjj.getStatus(url, user, pw)
+                    if (status.connectionStatus === Jenkins.ConnectionStatus.Connected) {
+                        vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name] + status.buildNr.toString() + "/console"));
+                    } else {
+                        vscode.window.showWarningMessage("The Jenkins job has some connection issues. Please check the status bar for more information.");
+                    }
                 });
             }
 
-            const jjj: Jenkins.Jenkins = new Jenkins.Jenkins();
+            const jjj: Jenkins.Jenkins = new Jenkins.Jenkins(projectBranch);
 
             const url = setting.url;
             const user = setting.username ? setting.username : "";
@@ -68,49 +66,48 @@ export class JenkinsIndicator {
                 this.statusBarItems[setting.name].tooltip = "No URL Defined";
                 this.statusBarItems[setting.name].text = "Jenkins " + codicons.x;
                 continue;
-            }     
-            
-            jjj.getStatus(url, user, pw)
-                .then((status) => {
+            }
 
-                    let icon: string;
-                    let tooltip = 
-                            "Job Name: " + status.jobName + "\n" +
-                            "Status: " + status.statusName + "\n" +
-                            "URL: " + status.url + "\n" +
-                            "Connection Status: " + status.connectionStatusName;
-                    
-                    if (status.buildNr !== undefined) {
-                        tooltip = tooltip + "\n" + 
-                        "Build #: " + status.buildNr;
-                    }
+            const status = await jjj.getStatus(url, user, pw)
+            let icon: string;
+            let tooltip =
+                "Job Name: " + status.jobName + "\n" +
+                "Status: " + status.statusName + "\n" +
+                "URL: " + status.url + "\n" +
+                "Connection Status: " + status.connectionStatusName;
 
-                    if (status.code !== undefined) {
-                        tooltip = tooltip + "\n" + 
-                        "Code #: " + status.code;
-                    }
+            if (status.buildNr !== undefined) {
+                tooltip = tooltip + "\n" +
+                    "Build #: " + status.buildNr;
+            }
 
-                    switch (status.status) {
-                        case Jenkins.BuildStatus.InProgress:
-                            icon = codicons.pulse;
-                            break;
+            if (status.code !== undefined) {
+                tooltip = tooltip + "\n" +
+                    "Code #: " + status.code;
+            }
 
-                        case Jenkins.BuildStatus.Success:
-                            icon = codicons.check;
-                            break;
+            switch (status.status) {
+                case Jenkins.BuildStatus.InProgress:
+                    icon = codicons.pulse;
+                    break;
 
-                        case Jenkins.BuildStatus.Failed:
-                            icon = codicons.alert;
-                            break;
-                    
-                        default:
-                            icon = codicons.stop;
-                    }
-                        
-                    this.statusBarItems[setting.name].text = icon + " " + setting.name;
-                    this.statusBarItems[setting.name].tooltip = tooltip;
-                    this.statusBarItems[setting.name].show();
-                });
+                case Jenkins.BuildStatus.Success:
+                    icon = codicons.check;
+                    break;
+
+                case Jenkins.BuildStatus.Failed:
+                    icon = codicons.alert;
+                    break;
+
+                default:
+                    icon = codicons.stop;
+            }
+
+            this.settingNameToUrl[setting.name] = status.url // Update URL
+            this.statusBarItems[setting.name].text = icon + " " + setting.name;
+            this.statusBarItems[setting.name].tooltip = tooltip;
+            this.statusBarItems[setting.name].show();
+
         }
 
         const tmpStatusBarItems = this.statusBarItems;
@@ -122,13 +119,13 @@ export class JenkinsIndicator {
                 delete tmpStatusBarItems[key];
             }
         }
-        
+
         this.hideReadOnly(tmpStatusBarItems);
         for (const key in tmpStatusBarItems) {
             // eslint-disable-next-line no-prototype-builtins
             if (tmpStatusBarItems.hasOwnProperty(key)) {
                 deRegisterCommand("Jenkins." + key + ".openInJenkins");
-                deRegisterCommand("Jenkins." + key + ".openInJenkinsConsoleOutput");                
+                deRegisterCommand("Jenkins." + key + ".openInJenkinsConsoleOutput");
             }
         }
 
@@ -140,7 +137,7 @@ export class JenkinsIndicator {
             // eslint-disable-next-line no-prototype-builtins
             if (items.hasOwnProperty(key)) {
                 const statusBarItem = items[key];
-                statusBarItem.dispose();                
+                statusBarItem.dispose();
             }
         }
     }
