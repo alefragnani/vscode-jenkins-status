@@ -204,7 +204,10 @@ export function activate(context: vscode.ExtensionContext) {
         fileSystemWatcher.onDidDelete(() => updateStatus(false), context.subscriptions);
         context.subscriptions.push(fileSystemWatcher);
     }
-    vscode.workspace.workspaceFolders.forEach(folder => createWatcher(folder));
+
+    if (vscode.workspace.workspaceFolders) {
+        vscode.workspace.workspaceFolders.forEach(folder => createWatcher(folder));
+    }
 }
 
 class Command {
