@@ -19,7 +19,7 @@
 - Support Extension View Context Menu (issue [#50](https://github.com/alefragnani/vscode-jenkins-status/issues/50))
 - Migrate from TSLint to ESLint (issue [#47](https://github.com/alefragnani/vscode-jenkins-status/issues/47))
 
-## [4.0.0] - 2020-02-??
+## [4.0.0] - 2020-02-22
 ### Added
 - **Multiple Jobs** and **in-progress** status support (Thanks to @eramitmittal [PR #17](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
 - Auto-detect changes in `.jenkins` file
