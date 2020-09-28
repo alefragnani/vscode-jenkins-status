@@ -15,17 +15,17 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('Sample test', () => {
-		assert.equal(-1, [1, 2, 3].indexOf(5));
-		assert.equal(-1, [1, 2, 3].indexOf(0));
+		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
+		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
 	});
 
 	test('Activation test', async () => {
 		await extension.activate();
-		assert.equal(extension.isActive, true);
+		assert.strictEqual(extension.isActive, true);
 	});
 
 	test('Extension loads in VSCode and is active', async () => {
 		await timeout(1500);
-		assert.equal(extension.isActive, true);
+		assert.strictEqual(extension.isActive, true);
     });
 });
