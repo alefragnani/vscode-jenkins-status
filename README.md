@@ -1,3 +1,8 @@
+[![](https://vsmarketplacebadge.apphb.com/version-short/alefragnani.jenkins-status.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.jenkins-status)
+[![](https://vsmarketplacebadge.apphb.com/downloads-short/alefragnani.jenkins-status.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.jenkins-status)
+[![](https://vsmarketplacebadge.apphb.com/rating-short/alefragnani.jenkins-status.svg)](https://marketplace.visualstudio.com/items?itemName=alefragnani.jenkins-status)
+[![](https://img.shields.io/github/workflow/status/alefragnani/vscode-jenkins-status/CI)](https://github.com/alefragnani/vscode-jenkins-status/actions?query=workflow%3ACI)
+
 <p align="center">
   <br />
   <a title="Learn more about Jenkins Status" href="https://github.com/eramitmittal/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
