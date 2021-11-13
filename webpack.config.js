@@ -25,11 +25,15 @@ const config = {
     optimization: {
         minimizer: [new TerserPlugin({
             parallel: true,
+            extractComments: false,
             terserOptions: {
                 ecma: 2020,
                 keep_classnames: false,
                 mangle: true,
-                module: true
+                module: true,
+                format: {
+                    comments: false
+                }
             }
         })],
     },
