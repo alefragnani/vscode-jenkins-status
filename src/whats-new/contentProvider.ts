@@ -18,6 +18,60 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.3.0", releaseDate: "October 2021" } });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Add CONTRIBUTING documentation",
+                id: 71,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Update dependencies",
+                id: 73,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: lodash",
+                id: 65,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });        
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: ssri",
+                id: 64,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });        
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: y18n",
+                id: 63,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });        
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: {
+                message: "Security Alert: elliptic",
+                id: 62,
+                kind: IssueKind.PR,
+                kudos: "dependabot"
+            }
+        });        
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.2.1", releaseDate: "September 2020" } });
         changeLog.push({
             kind: ChangeLogKind.FIXED,
@@ -116,35 +170,6 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
                 id: 35,
                 kind: IssueKind.PR,
                 kudos: "@leeopop"
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "3.1.2", releaseDate: "May 2019" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Security Alert: tar",
-                id: 49,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "3.1.1", releaseDate: "March 2019" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "What's New page broken in VS Code 1.32 due to CSS API changes",
-                id: 48,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Updated `.jenkins` example in README",
-                id: 31,
-                kind: IssueKind.PR,
-                kudos: "@kimitaka"
             }
         });
 

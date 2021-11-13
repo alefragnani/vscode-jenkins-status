@@ -8,7 +8,7 @@
   <a title="Learn more about Jenkins Status" href="https://github.com/eramitmittal/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
 </p>
 
-# What's new in Jenkins Status 4.2
+# What's new in Jenkins Status 4.3
 
 * Adds **Multi-root** support
 * Adds **Multiple Jobs** support

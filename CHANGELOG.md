@@ -1,3 +1,12 @@
+## [4.3.0] - 2021-11-13
+### Internal
+- Add CONTRIBUTING documentation (issue [#71](https://github.com/alefragnani/vscode-jenkins-status/issues/71))
+- Update dependencies (issue [#73](https://github.com/alefragnani/vscode-jenkins-status/issues/73))
+- Security Alert: lodash (dependabot [PR #65](https://github.com/alefragnani/vscode-jenkins-status/pull/65))
+- Security Alert: ssri (dependabot [PR #64](https://github.com/alefragnani/vscode-jenkins-status/pull/64))
+- Security Alert: y18n (dependabot [PR #63](https://github.com/alefragnani/vscode-jenkins-status/pull/63))
+- Security Alert: elliptic (dependabot [PR #62](https://github.com/alefragnani/vscode-jenkins-status/pull/62))
+
 ## [4.2.1] - 2020-09-05
 ### Fixed
 - `Open in Jenkins (Console Output)` command with unnamed job (issue [#56](https://github.com/alefragnani/vscode-jenkins-status/issues/56))
