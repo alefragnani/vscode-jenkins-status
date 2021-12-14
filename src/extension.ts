@@ -156,8 +156,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     async function readSettings(jenkinsSettingsPath: string) {
         if (jenkinsSettingsPath.endsWith(".jenkinsrc.js")) {
-            delete require.cache[require.resolve(jenkinsSettingsPath)];
-            return await require(jenkinsSettingsPath);
+            const r = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require;
+            delete r.cache[r.resolve(jenkinsSettingsPath)];
+            return await r(jenkinsSettingsPath);
         } else {
             const content = fs.readFileSync(jenkinsSettingsPath, "utf-8");
             return JSON.parse(content);
