@@ -154,6 +154,9 @@ export function activate(context: vscode.ExtensionContext) {
         return settings;
     }
 
+    declare const __webpack_require__: typeof require;
+    declare const __non_webpack_require__: typeof require;
+
     async function readSettings(jenkinsSettingsPath: string) {
         if (jenkinsSettingsPath.endsWith(".jenkinsrc.js")) {
             const r = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require;
