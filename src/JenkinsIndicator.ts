@@ -18,6 +18,10 @@ export class JenkinsIndicator {
     }
 
     public updateJenkinsStatus(settings: Setting[], registerCommand: (cmd: string, callback: () => void ) => void, deRegisterCommand: (cmd: string) => void): Setting[] {        
+        if (!settings) {
+            return;
+        }
+        
         let noNameCount = -1;
         this.settingNameToUrl = {};
 

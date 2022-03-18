@@ -10,6 +10,7 @@ import { registerWhatsNew } from "./whats-new/commands";
 import { Container } from "./container";
 import { Uri } from "vscode";
 import { appendPath, readFileUri, uriExists } from "./fs";
+import { isRemoteUri } from "./remote";
 
 declare const __webpack_require__: typeof require;
 declare const __non_webpack_require__: typeof require;
@@ -147,6 +148,9 @@ export async function activate(context: vscode.ExtensionContext) {
                 const jenkinsSettingsPath = await getConfigPath(element.uri);            
                 if (jenkinsSettingsPath.fsPath !== element.uri.fsPath) {
                     const jenkinsSettings = await readSettings(jenkinsSettingsPath);
+                    if (!jenkinsSettings) {
+                        return undefined;
+                    }
                     const jenkinsSettings2 = Array.isArray(jenkinsSettings) ? jenkinsSettings : [jenkinsSettings];
                     settings = settings.concat(...jenkinsSettings2);
                 }
@@ -159,9 +163,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
     async function readSettings(jenkinsSettingsPath: Uri): Promise<string> {
         if (jenkinsSettingsPath.fsPath.endsWith(".jenkinsrc.js")) {
+            if (isRemoteUri(jenkinsSettingsPath)) {
+                vscode.window.showInformationMessage("This workspace contains a `.jenkinsrc.js` file, which requires the Jenkins Status extension to be installed on the remote.");
+                return undefined;
+            }
+
             const r = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require;
-             delete r.cache[r.resolve(jenkinsSettingsPath.fsPath)];
-             return await r(jenkinsSettingsPath.fsPath);
+            delete r.cache[r.resolve(jenkinsSettingsPath.fsPath)];
+            return await r(jenkinsSettingsPath.fsPath);
         } else {
             const content = await readFileUri(jenkinsSettingsPath);
             return content;
