@@ -36,7 +36,9 @@ export class JenkinsIndicator {
 
             // Create as needed
             if (!this.statusBarItems[setting.name]) {
-                this.statusBarItems[setting.name] = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+                const itemId = settings.length === 1 ? "Jenkins Status" : setting.name;
+                this.statusBarItems[setting.name] = vscode.window.createStatusBarItem(`alefragnani.jenkins-status.${itemId}`, vscode.StatusBarAlignment.Left);
+                this.statusBarItems[setting.name].name = itemId;
                 this.statusBarItems[setting.name].command = "Jenkins." + setting.name + ".openInJenkins";
 
                 registerCommand("Jenkins." + setting.name + ".openInJenkins", () => {
