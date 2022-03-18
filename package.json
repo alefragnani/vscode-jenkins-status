@@ -19,6 +19,10 @@
         "status",
         "multi-root ready"
     ],
+    "extensionKind": [
+        "ui",
+        "workspace"
+    ],
     "activationEvents": [
         "workspaceContains:.jenkins",
         "workspaceContains:.jenkinsrc.js",
