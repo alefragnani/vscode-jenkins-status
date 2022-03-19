@@ -19,6 +19,12 @@
         "status",
         "multi-root ready"
     ],
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": "limited",
+            "description": "Trust is required to be able to load settings from .jenkinsrc.js files."
+        }
+    },
     "extensionKind": [
         "ui",
         "workspace"
