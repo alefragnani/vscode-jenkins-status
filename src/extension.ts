@@ -41,6 +41,10 @@ export async function activate(context: vscode.ExtensionContext) {
         updateStatus()}
     ));
 
+    context.subscriptions.push(vscode.workspace.onDidGrantWorkspaceTrust(async () => {
+        updateStatus(false);
+    }));
+
     const dispOpenInJenkins = vscode.commands.registerCommand("jenkins.openInJenkins", async () => {
         if (!await hasJenkinsInAnyRoot()) {
             vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
@@ -163,6 +167,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
     async function readSettings(jenkinsSettingsPath: Uri): Promise<string> {
         if (jenkinsSettingsPath.fsPath.endsWith(".jenkinsrc.js")) {
+            if (!vscode.workspace.isTrusted) {
+                vscode.window.showInformationMessage("The current workspace must be Trusted in order to load settings from .jenkinsrc.js files.");
+                return undefined;
+            }
+
             if (isRemoteUri(jenkinsSettingsPath)) {
                 vscode.window.showInformationMessage("This workspace contains a `.jenkinsrc.js` file, which requires the Jenkins Status extension to be installed on the remote.");
                 return undefined;
