@@ -1,3 +1,10 @@
+## [4.4.0] - 2022-03-30
+### Added
+* Support **Remote Development** (issue [#41](https://github.com/alefragnani/vscode-jenkins-status/issues/41))
+* Support **Workspace Trust** (issue [#66](https://github.com/alefragnani/vscode-jenkins-status/issues/66))
+* Support **Virtual Workspaces** (issue [#67](https://github.com/alefragnani/vscode-jenkins-status/issues/67))
+* Support new Status Bar API (issue [#68](https://github.com/alefragnani/vscode-jenkins-status/issues/68))
+
 ## [4.3.0] - 2021-11-13
 ### Internal
 - Add CONTRIBUTING documentation (issue [#71](https://github.com/alefragnani/vscode-jenkins-status/issues/71))

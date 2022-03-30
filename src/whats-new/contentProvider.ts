@@ -18,6 +18,40 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.4.0", releaseDate: "March 2022" } });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Support <b>Remote Development</b>",
+                id: 41,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Support <b>Workspace Trust</b>",
+                id: 66,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Support <b>Virtual Workspace</b>",
+                id: 67,
+                kind: IssueKind.Issue
+            }
+        });
+        changeLog.push({
+            kind: ChangeLogKind.NEW,
+            detail: {
+                message: "Support new Status Bar API",
+                id: 68,
+                kind: IssueKind.Issue
+            }
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.3.0", releaseDate: "October 2021" } });
         changeLog.push({
             kind: ChangeLogKind.INTERNAL,
@@ -115,61 +149,6 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
                 id: 53,
                 kind: IssueKind.PR,
                 kudos: "dependabot"
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.1.0", releaseDate: "June 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Localization support",
-                id: 30,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Support Extension View Context Menu",
-                id: 50,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Migrate from TSLint to ESLint",
-                id: 47,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.0.0", releaseDate: "February 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.NEW,
-            detail: {
-                message: "Adds <b>Multiple Jobs</b> and <b>in-progress</b> status support",
-                id: 17,
-                kind: IssueKind.PR,
-                kudos: "@eramitmittal"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.CHANGED,
-            detail: {
-                message: "<b>Status Bar</b> tooltip",
-                id: 17,
-                kind: IssueKind.PR,
-                kudos: "@eramitmittal"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Skip authentication when no `username` is provided",
-                id: 35,
-                kind: IssueKind.PR,
-                kudos: "@leeopop"
             }
         });
 

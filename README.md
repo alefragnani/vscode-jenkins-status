@@ -8,16 +8,12 @@
   <a title="Learn more about Jenkins Status" href="https://github.com/eramitmittal/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
 </p>
 
-# What's new in Jenkins Status 4.3
+# What's new in Jenkins Status 4.4
 
+* Adds **Workspace Trust** support
+* Adds **Virtual Workspace** support
+* Adds **Remote Development** support
 * Adds **Multi-root** support
-* Adds **Multiple Jobs** support
-* Adds **in-progress** status support
-* **Auto-detect** changes in `.jenkins` file
-* Improved **Status Bar** tooltip
-* Adds **HTTPS** support
-* Adds **Authentication** support
-* Adds **Localization** support
 
 ## Support
 
@@ -106,6 +102,22 @@ If you are having trouble with self-signed certificates and your build status sa
 * `Jenkins: Open in Jenkins (Console Output):` Open the Console Output of the Jenkins project in you browser 
 * `Jenkins: Update Status:` Manually update the status of our Jenkins project
 
+## Working with Remotes
+
+The extension support [Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) scenarios, and you may choose how to use it, depending on your needs
+
+### I access Remotes, and use `.jenkins` files
+
+This is the _regular_ scenario, and that's why you don't need to do anything special for the extension to work. It works out of the box.
+
+When installed locally, the extension will properly recognize the `.jenkins` file on remotes, and display the status bar for each Url.
+
+_It just works_
+
+### I access Remotes, but I use `.jenkinsrc.js` files
+
+If you need to use `.jenkinsrc.js` files, the extension must be installed on that remote. This happens because it is not possible to _import_ the `.jenkinsrc.js` file remotely.
+
 ## Available settings
 
 * Interval (in minutes) to automatically update the status
@@ -118,6 +130,7 @@ If you are having trouble with self-signed certificates and your build status sa
 
 Special thanks to the people that have contributed to the project:
 
+* Kalin Krustev (@kalinkrustev) - Support Remote Development ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/76))
 * Keunhong Lee (@leeopop) - Skip authentication when no `username` is provided ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/35))
 * Amit Mittal (@eramitmittal) - Multiple Jobs and in-progress status support ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
 * Kimitaka Watanabe (@kimitaka) - Updated `.jenkins` example in README  ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/31))
