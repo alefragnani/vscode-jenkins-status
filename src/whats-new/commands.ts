@@ -6,12 +6,14 @@
 import { commands } from "vscode";
 import { Container } from "../container";
 import { WhatsNewManager } from "../../vscode-whats-new/src/Manager";
-import { WhatsNewJenkinsStatusContentProvider } from "./contentProvider";
+import { JenkinsStatusContentProvider, JenkinsStatusSocialMediaProvider } from "./contentProvider";
 
-export function registerWhatsNew() {
-    const provider = new WhatsNewJenkinsStatusContentProvider();
-    const viewer = new WhatsNewManager(Container.context).registerContentProvider("jenkins-status", provider);
-    viewer.showPageInActivation();
+export async function registerWhatsNew() {
+    const provider = new JenkinsStatusContentProvider();
+    const viewer = new WhatsNewManager(Container.context)
+        .registerContentProvider("alefragnani", "jenkins-status", provider)
+        .registerSocialMediaProvider(new JenkinsStatusSocialMediaProvider())
+    await viewer.showPageInActivation();
     Container.context.subscriptions.push(commands.registerCommand("jenkins.whatsNew", () => viewer.showPage()));
     Container.context.subscriptions.push(commands.registerCommand("jenkins._whatsNewContextMenu", () => viewer.showPage()));
 }

@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
         updateStatus();
     }
 
-    registerWhatsNew();
+    await registerWhatsNew();
     
     const dispUpdateStatus = vscode.commands.registerCommand("jenkins.updateStatus", () => updateStatus(true));
     context.subscriptions.push(dispUpdateStatus);

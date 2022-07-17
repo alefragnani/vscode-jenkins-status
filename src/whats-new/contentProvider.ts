@@ -4,10 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 // tslint:disable-next-line:max-line-length
-import { ChangeLogItem, ChangeLogKind, ContentProvider, Header, Image, Sponsor, IssueKind } from "../../vscode-whats-new/src/ContentProvider";
+import { ChangeLogItem, ChangeLogKind, ContentProvider, Header, Image, IssueKind, SocialMediaProvider, SupportChannel } from "../../vscode-whats-new/src/ContentProvider";
 
-export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
-
+export class JenkinsStatusContentProvider implements ContentProvider {
+    
     public provideHeader(logoUrl: string): Header {
         return <Header> {logo: <Image> {src: logoUrl, height: 50, width: 50}, 
             message: `<b>Jenkins Status</b> adds an area in the status bar, indicating the 
@@ -155,9 +155,27 @@ export class WhatsNewJenkinsStatusContentProvider implements ContentProvider {
         return changeLog;
     }
 
-    public provideSponsors(): Sponsor[] {
-        const sponsors: Sponsor[] = [];
-        return sponsors
+    public provideSupportChannels(): SupportChannel[] {
+        const supportChannels: SupportChannel[] = [];
+        supportChannels.push({
+            title: "Become a sponsor on GitHub",
+            link: "https://www.github.com/sponsors/alefragnani",
+            message: "Become a Sponsor"
+        });
+        supportChannels.push({
+            title: "Donate via PayPal",
+            link: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=EP57F3B6FXKTU&lc=US&item_name=Alessandro%20Fragnani&item_number=vscode%20extensions&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted",
+            message: "Donate via PayPal"
+        });
+        return supportChannels;
     }
-   
+}
+
+export class JenkinsStatusSocialMediaProvider implements SocialMediaProvider {
+    public provideSocialMedias() {
+        return [{
+            title: "Follow me on Twitter",
+            link: "https://www.twitter.com/alefragnani"
+        }];
+    }
 }
