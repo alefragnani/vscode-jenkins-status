@@ -50,6 +50,9 @@
     "bugs": {
         "url": "https://github.com/alefragnani/vscode-jenkins-status/issues"
     },
+    "sponsor": {
+        "url": "https://github.com/sponsors/alefragnani"
+    },
     "contributes": {
         "commands": [
             {
