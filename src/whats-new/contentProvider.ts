@@ -18,6 +18,12 @@ export class JenkinsStatusContentProvider implements ContentProvider {
     public provideChangeLog(): ChangeLogItem[] {
         const changeLog: ChangeLogItem[] = [];
 
+        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.4.1", releaseDate: "June 2022" } });
+        changeLog.push({
+            kind: ChangeLogKind.INTERNAL,
+            detail: "Add <b>GitHub Sponsors</b> support"
+        });
+
         changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.4.0", releaseDate: "March 2022" } });
         changeLog.push({
             kind: ChangeLogKind.NEW,
@@ -105,52 +111,6 @@ export class JenkinsStatusContentProvider implements ContentProvider {
                 kudos: "dependabot"
             }
         });        
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.2.1", releaseDate: "September 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "<b>Open in Jenkins (Console Output)</b> command with unnamed job",
-                id: 56,
-                kind: IssueKind.Issue
-            }
-        });
-
-        changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "4.2.0", releaseDate: "August 2020" } });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Use <b>vscode-ext-codicons</b> package",
-                id: 52,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.INTERNAL,
-            detail: {
-                message: "Shrink installation size/time",
-                id: 51,
-                kind: IssueKind.Issue
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Security Alert: elliptic",
-                id: 54,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });
-        changeLog.push({
-            kind: ChangeLogKind.FIXED,
-            detail: {
-                message: "Security Alert: acorn",
-                id: 53,
-                kind: IssueKind.PR,
-                kudos: "dependabot"
-            }
-        });
 
         return changeLog;
     }

@@ -1,3 +1,7 @@
+## [4.4.1] - 2022-07-17
+### Internal
+* Add GitHub Sponsors support (PR [#83](https://github.com/alefragnani/vscode-jenkins-status/pull/83))
+
 ## [4.4.0] - 2022-03-30
 ### Added
 * Support **Remote Development** (issue [#41](https://github.com/alefragnani/vscode-jenkins-status/issues/41))
