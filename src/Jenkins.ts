@@ -48,9 +48,9 @@ export function colorToBuildStatusName(color: string): string {
     
   switch (color) {	  
     case "blue" :	      
-      return 'Sucess';	
+      return 'Success';	
     case "blue_anime":	
-      return 'Sucess';	
+      return 'Success';	
             
     case "red" :	      
       return 'Failed';	
