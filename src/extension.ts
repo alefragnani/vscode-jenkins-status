@@ -8,7 +8,7 @@ import * as JenkinsIndicator from "./JenkinsIndicator";
 import { Setting } from "./setting";
 import { registerWhatsNew } from "./whats-new/commands";
 import { Container } from "./container";
-import { Uri } from "vscode";
+import { l10n, Uri } from "vscode";
 import { appendPath, readFileUri, uriExists } from "./fs";
 import { isRemoteUri } from "./remote";
 
@@ -47,19 +47,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
     const dispOpenInJenkins = vscode.commands.registerCommand("jenkins.openInJenkins", async () => {
         if (!await hasJenkinsInAnyRoot()) {
-            vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
+            vscode.window.showWarningMessage(l10n.t("The project is not enabled for Jenkins. Missing .jenkins file."));
             return;
         } 
 
         const settings = currentSettings;
         if (!settings.length) {
-            vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
+            vscode.window.showWarningMessage(l10n.t("The current project is not enabled for Jenkins. Please review .jenkins file."));
             return;
         }
 
         if (settings.length > 1) {
             vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
-                placeHolder : "Select the Jenkins job to open in browser"
+                placeHolder : l10n.t("Select the Jenkins job to open in browser")
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkins");
             });
@@ -71,19 +71,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
     const dispOpenInJenkinsConsoleOutput = vscode.commands.registerCommand("jenkins.openInJenkinsConsoleOutput", async () => {
         if (!await hasJenkinsInAnyRoot()) {
-            vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
+            vscode.window.showWarningMessage(l10n.t("The project is not enabled for Jenkins. Missing .jenkins file."));
             return;
         } 
 
         const settings = currentSettings;
         if (!settings.length) {
-            vscode.window.showWarningMessage("The current project is not enabled for Jenkins. Please review .jenkins file.");
+            vscode.window.showWarningMessage(l10n.t("The current project is not enabled for Jenkins. Please review .jenkins file."));
             return;
         }
 
         if (settings.length > 1) {
             vscode.window.showQuickPick(settings.map(setting => setting.name ? setting.name : setting.url), {
-                placeHolder : "Select the Jenkins job to open in browser"
+                placeHolder : l10n.t("Select the Jenkins job to open in browser")
             }).then((settingName: string) => {
                 vscode.commands.executeCommand("Jenkins." + settingName + ".openInJenkinsConsoleOutput");
             });
@@ -106,7 +106,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     async function updateStatus(showMessage?: boolean) {
         if (showMessage && !await hasJenkinsInAnyRoot()) {
-            vscode.window.showWarningMessage("The project is not enabled for Jenkins. Missing .jenkins file.");
+            vscode.window.showWarningMessage(l10n.t("The project is not enabled for Jenkins. Missing .jenkins file."));
             return;
         }
 
@@ -160,7 +160,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 }
             }       
         } catch (error) {
-            vscode.window.showErrorMessage("Error while retrieving Jenkins settings");
+            vscode.window.showErrorMessage(l10n.t("Error while retrieving Jenkins settings"));
         }
         return settings;
     }
@@ -168,12 +168,12 @@ export async function activate(context: vscode.ExtensionContext) {
     async function readSettings(jenkinsSettingsPath: Uri): Promise<string> {
         if (jenkinsSettingsPath.fsPath.endsWith(".jenkinsrc.js")) {
             if (!vscode.workspace.isTrusted) {
-                vscode.window.showInformationMessage("The current workspace must be Trusted in order to load settings from .jenkinsrc.js files.");
+                vscode.window.showInformationMessage(l10n.t("The current workspace must be Trusted in order to load settings from .jenkinsrc.js files."));
                 return undefined;
             }
 
             if (isRemoteUri(jenkinsSettingsPath)) {
-                vscode.window.showInformationMessage("This workspace contains a `.jenkinsrc.js` file, which requires the Jenkins Status extension to be installed on the remote.");
+                vscode.window.showInformationMessage(l10n.t("This workspace contains a `.jenkinsrc.js` file, which requires the Jenkins Status extension to be installed on the remote."));
                 return undefined;
             }
 
