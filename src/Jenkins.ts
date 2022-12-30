@@ -3,6 +3,7 @@
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 import request = require("request");
+import { l10n } from "vscode";
 
 export enum BuildStatus {
   Success, Failed, Disabled, InProgress
@@ -48,38 +49,38 @@ export function colorToBuildStatusName(color: string): string {
     
   switch (color) {	  
     case "blue" :	      
-      return 'Success';	
+      return l10n.t("Success");	
     case "blue_anime":	
-      return 'Success';	
+      return l10n.t("Success");	
             
     case "red" :	      
-      return 'Failed';	
+      return l10n.t("Failed");	
     case "red_anime":	  
-      return 'Failed';	
+      return l10n.t("Failed");	
 
 
     case "yellow":
-      return "Unstable";
+      return l10n.t("Unstable");
     case "yellow_anime":
-      return "Unstable";
+      return l10n.t("Unstable");
 
     case "grey":
-      return "Pending";
+      return l10n.t("Pending");
     case "grey_anime":
-      return "Pending";
+      return l10n.t("Pending");
 
     case "aborted":
-      return "Aborted";
+      return l10n.t("Aborted");
     case "aborted_anime":
-      return "Aborted";
+      return l10n.t("Aborted");
 
     case "notbuilt":
-      return "Not built";
+      return l10n.t("Not built");
     case "notbuilt_anime":
-      return "Not built";
+      return l10n.t("Not built");
 
     default:
-      return 'Disabled';
+      return l10n.t("Disabled");
   }
 }
   
@@ -87,16 +88,16 @@ export function getConnectionStatusName(status: ConnectionStatus): string {
   
     switch (status) {
       case ConnectionStatus.Connected:
-        return "Connected";
+        return l10n.t("Connected");
         
       case ConnectionStatus.InvalidAddress:
-        return "Invalid Address";
+        return l10n.t("Invalid Address");
     
       case ConnectionStatus.Error:
-        return "Error";
+        return l10n.t("Error");
     
       default:
-        return "Authentication Required"
+        return l10n.t("Authentication Required")
     }
 }
 
@@ -146,7 +147,7 @@ export class Jenkins {
               }
               
               if(result.status === BuildStatus.InProgress) {
-                result.statusName = result.statusName + " (in progress)";
+                result.statusName = l10n.t("{0} (in progress)", result.statusName);
               }
               resolve(result);
               break;
@@ -158,7 +159,7 @@ export class Jenkins {
                 jobName: "AUTHENTICATION NEEDED",
                 url,
                 status: BuildStatus.Disabled,
-                statusName: "Disabled",
+                statusName: l10n.t("Disabled"),
                 buildNr: undefined,
                 code: statusCode,
                 connectionStatus: ConnectionStatus.AuthenticationRequired,
@@ -172,7 +173,7 @@ export class Jenkins {
                 jobName: "Invalid URL",
                 url,
                 status: BuildStatus.Disabled,
-                statusName: "Disabled",
+                statusName: l10n.t("Disabled"),
                 buildNr: undefined,
                 code: statusCode,
                 connectionStatus: ConnectionStatus.InvalidAddress,
@@ -187,7 +188,7 @@ export class Jenkins {
             jobName: err.toString(),
             url,
             status: BuildStatus.Disabled,
-            statusName: "Disabled",
+            statusName: l10n.t("Disabled"),
             buildNr: undefined,
             code: err.code,
             connectionStatus: ConnectionStatus.Error,

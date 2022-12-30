@@ -7,6 +7,7 @@ import * as vscode from "vscode";
 import * as Jenkins from "./Jenkins";
 import { Setting } from "./setting";
 import { codicons } from "vscode-ext-codicons";
+import { l10n } from "vscode";
 
 export class JenkinsIndicator {
 
@@ -50,7 +51,7 @@ export class JenkinsIndicator {
                         if (status.connectionStatus === Jenkins.ConnectionStatus.Connected) {
                             vscode.env.openExternal(vscode.Uri.parse(this.settingNameToUrl[setting.name] + status.buildNr.toString() + "/console"));
                         } else {
-                            vscode.window.showWarningMessage("The Jenkins job has some connection issues. Please check the status bar for more information.");     
+                            vscode.window.showWarningMessage(l10n.t("The Jenkins job has some connection issues. Please check the status bar for more information."));     
                         }   
                     });
                 });
@@ -71,7 +72,7 @@ export class JenkinsIndicator {
 
             // invalid URL
             if (!url) {
-                this.statusBarItems[setting.name].tooltip = "No URL Defined";
+                this.statusBarItems[setting.name].tooltip = l10n.t("No URL Defined");
                 this.statusBarItems[setting.name].text = "Jenkins " + codicons.x;
                 continue;
             }     
@@ -79,23 +80,27 @@ export class JenkinsIndicator {
             jjj.getStatus(url, user, pw)
                 .then((status) => {
 
-                    let icon: string;
-                    let tooltip = 
-                            "Job Name: " + status.jobName + "\n" +
-                            "Status: " + status.statusName + "\n" +
-                            "URL: " + status.url + "\n" +
-                            "Connection Status: " + status.connectionStatusName;
+                    const tooltipJobName = l10n.t("Job Name: {0}", status.jobName);
+                    const tooltipStatus = l10n.t("Status: {0}", status.statusName);
+                    const tooltipUrl = l10n.t("URL: {0}", status.url);
+                    const tooltipConnectionStatus = l10n.t("Connection Status: {0}", status.connectionStatusName);
+                    const tooltipBuild = status.buildNr !== undefined 
+                        ? l10n.t("Build #: {0}", status.buildNr)
+                        : undefined;
+                    const tooltipCode = status.code !== undefined
+                        ? l10n.t("Code #: {0}", status.code)
+                        : undefined;
+
+                    let tooltip = tooltipJobName + "\n" +
+                        tooltipStatus + "\n" +
+                        tooltipUrl + "\n" +
+                        tooltipConnectionStatus;
+                    if (tooltipBuild !== undefined) 
+                        tooltip = tooltip + "\n" + tooltipBuild;
+                    if (tooltipCode !== undefined)
+                        tooltip = tooltip + "\n" + tooltipCode;
                     
-                    if (status.buildNr !== undefined) {
-                        tooltip = tooltip + "\n" + 
-                        "Build #: " + status.buildNr;
-                    }
-
-                    if (status.code !== undefined) {
-                        tooltip = tooltip + "\n" + 
-                        "Code #: " + status.code;
-                    }
-
+                    let icon: string;
                     switch (status.status) {
                         case Jenkins.BuildStatus.InProgress:
                             icon = codicons.pulse;
