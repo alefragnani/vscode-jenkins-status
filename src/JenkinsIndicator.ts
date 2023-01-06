@@ -156,17 +156,3 @@ export class JenkinsIndicator {
         }
     }
 }
-
-export class JenkinsIndicatorController {
-
-    private jenkinsIndicator: JenkinsIndicator;
-    private disposable: vscode.Disposable;
-
-    constructor(indicator: JenkinsIndicator) {
-        this.jenkinsIndicator = indicator;
-    }
-
-    public dispose() {
-        this.disposable.dispose();
-    }
-}

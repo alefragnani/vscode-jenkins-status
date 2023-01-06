@@ -20,7 +20,6 @@ export async function activate(context: vscode.ExtensionContext) {
     Container.context = context;
 
     let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
-    let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
 
     let currentSettings: Setting[];
     
@@ -99,8 +98,6 @@ export async function activate(context: vscode.ExtensionContext) {
         }
         
         jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
-        jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
-        aContext.subscriptions.push(jenkinsController);
         aContext.subscriptions.push(jenkinsIndicator);
     }
 
