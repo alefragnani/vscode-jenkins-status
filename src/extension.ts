@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import * as JenkinsIndicator from "./JenkinsIndicator";
+import { JenkinsIndicator } from "./JenkinsIndicator";
 import { Setting } from "./setting";
 import { registerWhatsNew } from "./whats-new/commands";
 import { Container } from "./container";
@@ -19,8 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
     
     Container.context = context;
 
-    let jenkinsIndicator: JenkinsIndicator.JenkinsIndicator;
-    let jenkinsController: JenkinsIndicator.JenkinsIndicatorController; 
+    let jenkinsIndicator: JenkinsIndicator;
 
     let currentSettings: Setting[];
     
@@ -98,9 +97,7 @@ export async function activate(context: vscode.ExtensionContext) {
             return;
         }
         
-        jenkinsIndicator = new JenkinsIndicator.JenkinsIndicator();
-        jenkinsController = new JenkinsIndicator.JenkinsIndicatorController(jenkinsIndicator);
-        aContext.subscriptions.push(jenkinsController);
+        jenkinsIndicator = new JenkinsIndicator();
         aContext.subscriptions.push(jenkinsIndicator);
     }
 
