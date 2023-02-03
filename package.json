@@ -9,7 +9,7 @@
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.73.0"
+        "vscode": "^1.74.0"
     },
     "categories": [
         "Other"
@@ -32,12 +32,7 @@
     ],
     "activationEvents": [
         "workspaceContains:.jenkins",
-        "workspaceContains:.jenkinsrc.js",
-        "onCommand:jenkins.updateStatus",
-        "onCommand:jenkins.openInJenkins",
-        "onCommand:jenkins.openInJenkinsConsoleOutput",
-        "onCommand:jenkins.whatsNew",
-        "onCommand:jenkins._whatsNewContextMenu"
+        "workspaceContains:.jenkinsrc.js"
     ],
     "main": "./dist/extension",
     "l10n": "./l10n",
