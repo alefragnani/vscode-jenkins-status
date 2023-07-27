@@ -1,3 +1,25 @@
+## [4.5.0] - 2023-07-27
+### Added
+- Localization (l10n) support (issue [#90](https://github.com/alefragnani/vscode-jenkins-status/issues/90))
+
+### Changed
+- Avoid What's New when using Gitpod (issue [#100](https://github.com/alefragnani/vscode-jenkins-status/issues/100))
+- Avoid What's New when installing lower versions (issue [#100](https://github.com/alefragnani/vscode-jenkins-status/issues/100))
+
+### Fixed
+- Typo (PR [#89](https://github.com/alefragnani/vscode-jenkins-status/pull/89) - kudos to @md2perpe)
+
+### Internal
+- Update badges in README (issue [#102](https://github.com/alefragnani/vscode-jenkins-status/issues/102))
+- Security Alert: word-wrap (dependabot [PR #101](https://github.com/alefragnani/vscode-jenkins-status/pull/101))
+- Security Alert: webpack (dependabot [PR #99](https://github.com/alefragnani/vscode-jenkins-status/pull/99))
+- Cleanup source (PR [#97](https://github.com/alefragnani/vscode-jenkins-status/pull/97) - kudos to @md2perpe)
+- Support Implicit Activation Events API (issue [#94](https://github.com/alefragnani/vscode-jenkins-status/issues/94))
+- Security Alert: minimatch (dependabot [PR #92](https://github.com/alefragnani/vscode-jenkins-status/pull/92))
+- Security Alert: qs (dependabot [PR #91](https://github.com/alefragnani/vscode-jenkins-status/pull/91))
+- Security Alert: terser (dependabot [PR #85](https://github.com/alefragnani/vscode-jenkins-status/pull/85))
+- Package Cleanup (issue [#84](https://github.com/alefragnani/vscode-jenkins-status/issues/84))
+
 ## [4.4.1] - 2022-07-17
 ### Internal
 * Add GitHub Sponsors support (PR [#83](https://github.com/alefragnani/vscode-jenkins-status/pull/83))

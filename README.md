@@ -5,8 +5,9 @@
   <a title="Learn more about Jenkins Status" href="https://github.com/eramitmittal/vscode-jenkins-status"><img src="https://raw.githubusercontent.com/alefragnani/vscode-jenkins-status/master/images/vscode-jenkins-status-logo-readme.png" alt="Read-only Logo" width="70%" /></a>
 </p>
 
-# What's new in Jenkins Status 4.4
+# What's new in Jenkins Status 4.5
 
+* Adds **Localization** support
 * Adds **Workspace Trust** support
 * Adds **Virtual Workspace** support
 * Adds **Remote Development** support
@@ -127,6 +128,8 @@ If you need to use `.jenkinsrc.js` files, the extension must be installed on tha
 
 Special thanks to the people that have contributed to the project:
 
+* Kalin Krustev (@md2perpe) - Cleanup source ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/97))
+* Kalin Krustev (@md2perpe) - Typo ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/89))
 * Kalin Krustev (@kalinkrustev) - Support Remote Development ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/76))
 * Keunhong Lee (@leeopop) - Skip authentication when no `username` is provided ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/35))
 * Amit Mittal (@eramitmittal) - Multiple Jobs and in-progress status support ([see PR](https://github.com/alefragnani/vscode-jenkins-status/pull/17))
