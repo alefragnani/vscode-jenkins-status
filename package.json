@@ -118,7 +118,7 @@
         "test": "npm run test-compile && npm run just-test"
     },
     "dependencies": {
-        "request": "^2.88.0",
+        "axios": "^1.7.0",
         "vscode-ext-codicons": "^1.0.1"
     },
     "devDependencies": {

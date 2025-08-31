@@ -2,7 +2,7 @@
 *  Copyright (c) Alessandro Fragnani. All rights reserved.
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import request = require("request");
+import axios, { AxiosResponse, AxiosError } from "axios";
 import { l10n } from "vscode";
 
 export enum BuildStatus {
@@ -105,36 +105,35 @@ export class Jenkins {
 
   public getStatus(url: string, username: string, password: string) {
 
-    return new Promise<JenkinsStatus>((resolve, reject) => {
+    return new Promise<JenkinsStatus>((resolve) => {
 
-      let data = "";
-      let statusCode: number;
       let result: JenkinsStatus;
 
-      let authInfo: any;
+      // Configure axios request options
+      const config: any = {
+        method: 'get',
+        url: url + "/api/json",
+        validateStatus: () => {
+          // Don't throw on any status code, we'll handle them manually
+          return true;
+        }
+      };
+
+      // Add authentication if username is provided
       if (username) {
-        authInfo = {
-          auth: {
-            user: username,
-            pass: password
-          }
+        config.auth = {
+          username: username,
+          password: password
         };
-      } else {
-        authInfo = {};
       }
       
-      request
-        .get(url + "/api/json", authInfo)
-        .on("response", function(response) {
-          statusCode = response.statusCode;
-        })
-        .on("data", function(chunk) {
-          data += chunk;
-        })
-        .on("end", function() {
+      axios(config)
+        .then((response: AxiosResponse) => {
+          const statusCode = response.status;
+          
           switch (statusCode) {
             case 200: {
-              const myArr = JSON.parse(data);
+              const myArr = response.data;
               result = {
                 jobName: myArr.displayName,
                 url: myArr.url,
@@ -183,19 +182,30 @@ export class Jenkins {
               break;
           }
         })
-        .on("error", function(err) {
+        .catch((error: AxiosError | Error) => {
+          let errorCode: any;
+          let errorMessage: string;
+          
+          if (axios.isAxiosError(error)) {
+            errorCode = error.code;
+            errorMessage = error.message;
+          } else {
+            errorCode = undefined;
+            errorMessage = error.toString();
+          }
+          
           result = {
-            jobName: err.toString(),
+            jobName: errorMessage,
             url,
             status: BuildStatus.Disabled,
             statusName: l10n.t("Disabled"),
             buildNr: undefined,
-            code: err.code,
+            code: errorCode,
             connectionStatus: ConnectionStatus.Error,
             connectionStatusName: getConnectionStatusName(ConnectionStatus.Error)
           }
           resolve(result);
-        })
+        });
     });
   }
 
