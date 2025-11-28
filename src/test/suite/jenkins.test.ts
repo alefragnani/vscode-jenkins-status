@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { colorToBuildStatus, colorToBuildStatusName, BuildStatus } from '../../Jenkins';
+import { colorToBuildStatus, colorToBuildStatusName, BuildStatus, Jenkins, ConnectionStatus } from '../../Jenkins';
 
 suite('Jenkins Status Tests', () => {
     test('colorToBuildStatus should return correct status for blue', () => {
@@ -24,5 +24,15 @@ suite('Jenkins Status Tests', () => {
         assert.ok(colorToBuildStatusName('blue').length > 0);
         assert.ok(colorToBuildStatusName('red').length > 0);
         assert.ok(colorToBuildStatusName('yellow').length > 0);
+    });
+
+    test('Jenkins.getStatus should handle invalid URLs gracefully', async () => {
+        const jenkins = new Jenkins();
+        const result = await jenkins.getStatus('http://invalid-jenkins-url-that-does-not-exist.example.com', '', '');
+        
+        assert.ok(result);
+        assert.strictEqual(result.status, BuildStatus.Disabled);
+        assert.strictEqual(result.connectionStatus, ConnectionStatus.Error);
+        assert.ok(result.jobName.length > 0); // Should contain error message
     });
 });
