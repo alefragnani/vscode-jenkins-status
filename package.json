@@ -118,17 +118,16 @@
         "test": "npm run test-compile && npm run just-test"
     },
     "dependencies": {
-        "request": "^2.88.0",
         "vscode-ext-codicons": "^1.0.1"
     },
     "devDependencies": {
-        "@types/node": "^18.17.0",
+        "@types/node": "^22.18.10",
         "@types/vscode": "^1.73.0",
         "@types/mocha": "^9.0.0",
         "@types/glob": "^7.1.4",
-        "@vscode/test-electron": "^2.5.2",
         "@typescript-eslint/eslint-plugin": "^7.0.0",
         "@typescript-eslint/parser": "^7.0.0",
+        "@vscode/test-electron": "^3.1.0",
         "eslint": "^8.1.0",
         "eslint-config-vscode-ext": "^1.1.0",
         "terser-webpack-plugin": "^5.2.4",

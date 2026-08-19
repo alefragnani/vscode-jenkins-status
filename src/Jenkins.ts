@@ -2,7 +2,6 @@
 *  Copyright (c) Alessandro Fragnani. All rights reserved.
 *  Licensed under the MIT License. See License.md in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import request = require("request");
 import { l10n } from "vscode";
 
 export enum BuildStatus {
@@ -105,37 +104,22 @@ export class Jenkins {
 
   public getStatus(url: string, username: string, password: string) {
 
-    return new Promise<JenkinsStatus>((resolve, reject) => {
+    return new Promise<JenkinsStatus>((resolve) => {
 
-      let data = "";
-      let statusCode: number;
-      let result: JenkinsStatus;
-
-      let authInfo: any;
+      const headers: Record<string, string> = {};
       if (username) {
-        authInfo = {
-          auth: {
-            user: username,
-            pass: password
-          }
-        };
-      } else {
-        authInfo = {};
+        headers["Authorization"] = "Basic " + Buffer.from(`${username}:${password}`).toString("base64");
       }
-      
-      request
-        .get(url + "/api/json", authInfo)
-        .on("response", function(response) {
-          statusCode = response.statusCode;
-        })
-        .on("data", function(chunk) {
-          data += chunk;
-        })
-        .on("end", function() {
+
+      fetch(url + "/api/json", { headers })
+        .then(async (response) => {
+          const statusCode = response.status;
+
           switch (statusCode) {
             case 200: {
+              const data = await response.text();
               const myArr = JSON.parse(data);
-              result = {
+              const result: JenkinsStatus = {
                 jobName: myArr.displayName,
                 url: myArr.url,
                 status: colorToBuildStatus(myArr.color),
@@ -145,17 +129,17 @@ export class Jenkins {
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.Connected),
                 code: undefined
               }
-              
+
               if(result.status === BuildStatus.InProgress) {
                 result.statusName = l10n.t("{0} (in progress)", result.statusName);
               }
               resolve(result);
               break;
             }
-              
+
             case 401:
             case 403:
-              result = {
+              resolve({
                 jobName: "AUTHENTICATION NEEDED",
                 url,
                 status: BuildStatus.Disabled,
@@ -164,12 +148,11 @@ export class Jenkins {
                 code: statusCode,
                 connectionStatus: ConnectionStatus.AuthenticationRequired,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.AuthenticationRequired)
-              }
-              resolve(result);
+              });
               break;
-          
+
             default:
-              result = {
+              resolve({
                 jobName: "Invalid URL",
                 url,
                 status: BuildStatus.Disabled,
@@ -178,24 +161,22 @@ export class Jenkins {
                 code: statusCode,
                 connectionStatus: ConnectionStatus.InvalidAddress,
                 connectionStatusName: getConnectionStatusName(ConnectionStatus.InvalidAddress)
-              }
-              resolve(result);
+              });
               break;
           }
         })
-        .on("error", function(err) {
-          result = {
+        .catch((err) => {
+          resolve({
             jobName: err.toString(),
             url,
             status: BuildStatus.Disabled,
             statusName: l10n.t("Disabled"),
             buildNr: undefined,
-            code: err.code,
+            code: err.cause?.code,
             connectionStatus: ConnectionStatus.Error,
             connectionStatusName: getConnectionStatusName(ConnectionStatus.Error)
-          }
-          resolve(result);
-        })
+          });
+        });
     });
   }
 
